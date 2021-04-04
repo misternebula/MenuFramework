@@ -1,0 +1,9 @@
+﻿{
+  "filename": "MenuFramework.dll",
+  "author": "_nebula",
+  "name": "Menu Framework",
+  "description": "Custom menu framework/wrapper.",
+  "uniqueName": "_nebula.MenuFramework",
+  "version": "0.1.0",
+  "owmlVersion": "1.1.8"
+}

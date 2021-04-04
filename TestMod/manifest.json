@@ -1,0 +1,10 @@
+﻿{
+  "filename": "TestMod.dll",
+  "author": "_nebula",
+  "name": "Menu Framework Test Mod",
+  "description": "Test mod for the custom menu framework/wrapper.",
+  "uniqueName": "_nebula.TestMod",
+  "version": "0.1.0",
+  "owmlVersion": "1.1.8",
+  "dependencies": [ "_nebula.MenuFramework" ]
+}
