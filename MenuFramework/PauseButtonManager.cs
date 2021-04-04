@@ -32,7 +32,6 @@ namespace MenuFramework
 			var layout = pauseMenuItems.transform.Find("PauseMenuItemsLayout");
 			foreach (Transform transform in layout)
 			{
-				Main.Helper.Console.WriteLine(transform.name);
 				if (transform.GetComponent<Button>() != null)
 				{
 					transform.gameObject.SetActive(false);
@@ -86,15 +85,12 @@ namespace MenuFramework
 
 		private GameObject CreateBase(string name, Menu customMenu = null)
 		{
-			Main.Helper.Console.WriteLine($"Create base {name}");
 			if (customMenu == null)
 			{
 				customMenu = Resources.FindObjectsOfTypeAll<Menu>().First(x => x.name == "PauseMenuItems");
-				Main.Helper.Console.WriteLine($"- Defaulting to {customMenu.name}");
 			}
 			var pauseButton = new GameObject($"Button-{name}");
 			var mainMenuLayoutGroup = customMenu.transform.GetChild(1).GetComponent<VerticalLayoutGroup>();
-			Main.Helper.Console.WriteLine($"- got layout as {mainMenuLayoutGroup.name}");
 			pauseButton.transform.parent = mainMenuLayoutGroup.transform;
 			pauseButton.transform.localPosition = Vector3.zero;
 			pauseButton.transform.localScale = Vector3.one;
