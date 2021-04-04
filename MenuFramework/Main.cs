@@ -1,6 +1,5 @@
 ﻿using OWML.Common;
 using OWML.ModHelper;
-using System.Collections.Generic;
 
 namespace MenuFramework
 {
@@ -9,8 +8,6 @@ namespace MenuFramework
 		public static IModHelper Helper { get; private set; }
 
 		public override object GetApi() => new MenuAPI();
-
-		private readonly Dictionary<ButtonWithHotkeyImageElement, string> buttonDict = new Dictionary<ButtonWithHotkeyImageElement, string>();
 
 		public void Start()
 		{
