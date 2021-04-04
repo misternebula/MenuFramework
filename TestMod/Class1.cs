@@ -79,6 +79,8 @@ namespace TestMod
 			_saveFile = ModHelper.Storage.Load<SaveFile>(SAVE_FILE);
 
 			LoadManager.OnCompleteSceneLoad += OnSceneLoaded;
+
+			MakeTitleMenus();
 		}
 
 		public override void Configure(IModConfig config)
@@ -102,6 +104,18 @@ namespace TestMod
 				Init();
 				SpawnAtInitialPoint();
 			}
+		}
+
+		private void MakeTitleMenus()
+		{
+			var twoChoicePopup = MenuApi.MakeTwoChoicePopup("Do thing?", "Yes", "No");
+			var inputPopup = MenuApi.MakeInputFieldPopup("Enter message :", "Put message here!", "Confirm", "Cancel");
+			inputPopup.GetComponent<PopupInputMenu>().OnPopupConfirm += () => ModHelper.Console.WriteLine(inputPopup.GetComponent<PopupInputMenu>().GetInputText());
+
+			MenuApi.TitleScreen_MakeMenuOpenButton("OPTIONS", twoChoicePopup.GetComponent<Menu>());
+			MenuApi.TitleScreen_MakeMenuOpenButton("INPUT", inputPopup.GetComponent<Menu>());
+			MenuApi.TitleScreen_MakeSceneLoadButton("LOAD EYE (CONFIRM)", SubmitActionLoadScene.LoadableScenes.EYE, twoChoicePopup.GetComponent<PopupMenu>());
+			MenuApi.TitleScreen_MakeSceneLoadButton("LOAD EYE", SubmitActionLoadScene.LoadableScenes.EYE);
 		}
 
 		private void Init()

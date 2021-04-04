@@ -1,0 +1,7 @@
+ManifestFileVersion: 0
+CRC: 432211708
+AssetBundleManifest:
+  AssetBundleInfos:
+    Info_0:
+      Name: menuframework
+      Dependencies: {}

@@ -16,6 +16,16 @@ namespace MenuFramework
 			gameObject.AddComponent<TitleButtonManager>();
 			gameObject.AddComponent<PopupMenuManager>();
 			gameObject.AddComponent<PauseButtonManager>();
+
+			LoadManager.OnCompleteSceneLoad += OnSceneLoad;
+		}
+
+		void OnSceneLoad(OWScene from, OWScene to)
+		{
+			if (to == OWScene.TitleScreen)
+			{
+				TitleButtonManager.Instance.CustomizeTitleScreen();
+			}
 		}
 	}
 }
