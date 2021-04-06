@@ -24,6 +24,8 @@ namespace MenuFramework
 			text.text = title;
 			newMenu.gameObject.name = title;
 
+			Main.Helper.Console.WriteLine($"PauseMenuCanvas sortorder : {GameObject.Find("PauseMenuCanvas").GetComponent<Canvas>().sortingOrder}");
+
 			return newMenu.GetComponent<Menu>();
 		}
 
