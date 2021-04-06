@@ -1,4 +1,5 @@
 ﻿using OWML.Utils;
+using System;
 using System.Linq;
 using UnityEngine;
 using UnityEngine.UI;
@@ -13,32 +14,17 @@ namespace MenuFramework
 
 		public Menu MakePauseListMenu(string title)
 		{
-			if (LoadManager.GetCurrentScene() != OWScene.SolarSystem && LoadManager.GetCurrentScene() != OWScene.EyeOfTheUniverse)
-			{
-				Main.Helper.Console.WriteLine("Error - Cannot create pause menu in this scene!", OWML.Common.MessageType.Error);
-				return null;
-			}
-			var originalPauseList = Resources.FindObjectsOfTypeAll<Menu>().First(x => x.name == "PauseMenuItems").gameObject;
-			var pauseMenuItems = Instantiate(originalPauseList);
-			pauseMenuItems.transform.parent = originalPauseList.transform.parent;
-			pauseMenuItems.transform.localPosition = Vector3.zero;
-			pauseMenuItems.transform.localScale = Vector3.one;
-			pauseMenuItems.name = "CUSTOM_MENU";
+			var newMenu = Instantiate(Main.PauseListPrefab);
 
-			var text = pauseMenuItems.GetComponentInChildren<Text>();
-			Destroy(text.GetComponent<LocalizedText>());
+			newMenu.transform.parent = GameObject.Find("PauseMenuBlock").transform;
+			newMenu.transform.localScale = Vector3.one;
+			newMenu.transform.localPosition = Vector3.zero;
+
+			var text = newMenu.transform.GetChild(1).GetChild(0).GetChild(0).GetComponent<Text>();
 			text.text = title;
+			newMenu.gameObject.name = title;
 
-			var layout = pauseMenuItems.transform.Find("PauseMenuItemsLayout");
-			foreach (Transform transform in layout)
-			{
-				if (transform.GetComponent<Button>() != null)
-				{
-					transform.gameObject.SetActive(false);
-				}
-			}
-			layout.name = "CUSTOM_LAYOUT";
-			return pauseMenuItems.GetComponent<Menu>();
+			return newMenu.GetComponent<Menu>();
 		}
 
 		public Button MakeSimpleButton(string name, Menu customMenu = null)
@@ -89,86 +75,27 @@ namespace MenuFramework
 			{
 				customMenu = Resources.FindObjectsOfTypeAll<Menu>().First(x => x.name == "PauseMenuItems");
 			}
-			var pauseButton = new GameObject($"Button-{name}");
+
+			var pauseButton = Instantiate(Main.ButtonPrefab);
+
+			// Make new button above dotted line
 			var mainMenuLayoutGroup = customMenu.transform.GetChild(1).GetComponent<VerticalLayoutGroup>();
 			pauseButton.transform.parent = mainMenuLayoutGroup.transform;
 			pauseButton.transform.localPosition = Vector3.zero;
 			pauseButton.transform.localScale = Vector3.one;
-			pauseButton.transform.SetSiblingIndex(pauseButton.transform.GetSiblingIndex() - 2);
+			pauseButton.transform.SetSiblingIndex(pauseButton.transform.GetSiblingIndex() - 1); // -1 because no spacer in pause menu
 			pauseButton.SetActive(false);
 
-			var rect = pauseButton.AddComponent<RectTransform>();
-			rect.position = Vector3.zero;
+			// Change text, and set mesh to dirty (maybe not needed?)
+			pauseButton.transform.GetChild(0).GetChild(1).GetComponent<Text>().text = name;
+			pauseButton.transform.GetChild(0).GetChild(1).GetComponent<Text>().SetAllDirty();
 
-			var button = pauseButton.AddComponent<Button>();
-			button.interactable = true;
-			button.transition = Selectable.Transition.None;
-			button.navigation = new Navigation
+			if (customMenu.GetSelectOnActivate() == null)
 			{
-				mode = Navigation.Mode.Vertical
-			};
-
-			var layoutElement = pauseButton.AddComponent<LayoutElement>();
-			layoutElement.minHeight = 60f;
-
-			var canvasGroup = pauseButton.AddComponent<CanvasGroup>();
-			canvasGroup.alpha = 1f;
-			canvasGroup.interactable = true;
-			canvasGroup.blocksRaycasts = true;
-			canvasGroup.ignoreParentGroups = false;
-
-			pauseButton.AddComponent<SelectableAudioPlayer>();
-
-			var verticalLayoutGroup = pauseButton.AddComponent<VerticalLayoutGroup>();
-			verticalLayoutGroup.spacing = 0;
-			verticalLayoutGroup.childAlignment = TextAnchor.MiddleCenter;
-			verticalLayoutGroup.childForceExpandHeight = false;
-			verticalLayoutGroup.childForceExpandWidth = false;
-			verticalLayoutGroup.childControlHeight = true;
-			verticalLayoutGroup.childControlWidth = true;
-
-			CreateButtonVisuals(pauseButton, name);
+				customMenu.SetSelectOnActivate(pauseButton.GetComponent<Button>());
+			}
 
 			return pauseButton;
-		}
-
-		private void CreateButtonVisuals(GameObject button, string name)
-		{
-			// TODO : cache this
-			var newLayoutGroup = Instantiate(Resources.FindObjectsOfTypeAll<HorizontalLayoutGroup>().First(x => x.name == "HorizontalLayoutGroup" && x.transform.parent.name == "Button-Options").gameObject);
-			newLayoutGroup.SetActive(true);
-			newLayoutGroup.transform.parent = button.transform;
-			newLayoutGroup.transform.localPosition = Vector3.zero;
-			var text = newLayoutGroup.transform.Find("Text");
-			Destroy(text.GetComponent<LocalizedText>());
-			text.GetComponent<Text>().text = name;
-
-			var leftArrow = newLayoutGroup.transform.Find("LeftArrow").GetComponent<Image>();
-			var rightArrow = newLayoutGroup.transform.Find("RightArrow").GetComponent<Image>();
-
-			var uiStyleApplier = button.AddComponent<UIStyleApplier>();
-			uiStyleApplier.SetValue("_textItems", new Text[1] { text.GetComponent<Text>() });
-			uiStyleApplier.SetValue("_foregroundGraphics",
-				new Graphic[3] {
-					text.GetComponent<Text>(),
-					leftArrow,
-					rightArrow
-				});
-			uiStyleApplier.SetValue("_backgroundGraphics", new Graphic[0]);
-			uiStyleApplier.SetValue("_onOffGraphicList",
-				new UIStyleApplier.OnOffGraphic[2]
-				{
-					new UIStyleApplier.OnOffGraphic()
-					{
-						graphic = leftArrow,
-						visibleHighlighted = true
-					},
-					new UIStyleApplier.OnOffGraphic()
-					{
-						graphic = rightArrow,
-						visibleHighlighted = true
-					}
-				});
 		}
 	}
 }

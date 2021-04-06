@@ -95,6 +95,10 @@ namespace TestMod
 				_isSolarSystemLoaded = true;
 				SpawnAtInitialPoint();
 			}
+			else if (scene == OWScene.TitleScreen)
+			{
+				MakeTitleMenus();
+			}
 		}
 
 		private void OnEvent(MonoBehaviour behaviour, Events ev)
@@ -125,12 +129,12 @@ namespace TestMod
 			var pauseButton = MenuApi.PauseMenu_MakeSimpleButton("TELEPORT TO...");
 
 			var shipSpawnMenu = MenuApi.PauseMenu_MakePauseListMenu("Ship Spawn Points");
-			shipSpawnMenu.transform.localScale *= 0.5f;
-			shipSpawnMenu.transform.localPosition *= 0.5f;
+			//shipSpawnMenu.transform.localScale *= 0.5f;
+			//shipSpawnMenu.transform.localPosition *= 0.5f;
 
 			var playerSpawnMenu = MenuApi.PauseMenu_MakePauseListMenu("Player Spawn Points");
-			playerSpawnMenu.transform.localScale *= 0.5f;
-			playerSpawnMenu.transform.localPosition *= 0.5f;
+			//playerSpawnMenu.transform.localScale *= 0.5f;
+			//playerSpawnMenu.transform.localPosition *= 0.5f;
 
 			pauseButton.onClick.AddListener(OnClickPauseMenuButton);
 
@@ -176,8 +180,8 @@ namespace TestMod
 			void CreateSpawnPointList(List<SpawnPoint> spawnPoints, AstroObject astroObject, Menu buttonAttachMenu)
 			{
 				var newMenu = MenuApi.PauseMenu_MakePauseListMenu(GetAstroObjectName(astroObject));
-				newMenu.transform.localScale *= 0.5f;
-				newMenu.transform.localPosition *= 0.5f;
+				//newMenu.transform.localScale *= 0.5f;
+				//newMenu.transform.localPosition *= 0.5f;
 
 				MenuApi.PauseMenu_MakeMenuOpenButton(GetAstroObjectName(astroObject), newMenu, buttonAttachMenu);
 
@@ -191,8 +195,8 @@ namespace TestMod
 			void CreateNoAstroSpawnPointList(List<SpawnPoint> spawnPoints, Menu buttonAttachMenu)
 			{
 				var newMenu = MenuApi.PauseMenu_MakePauseListMenu("NO ASTROOBJECTS");
-				newMenu.transform.localScale *= 0.5f;
-				newMenu.transform.localPosition *= 0.5f;
+				//newMenu.transform.localScale *= 0.5f;
+				//newMenu.transform.localPosition *= 0.5f;
 
 				MenuApi.PauseMenu_MakeMenuOpenButton("No AstroObject...", newMenu, buttonAttachMenu);
 

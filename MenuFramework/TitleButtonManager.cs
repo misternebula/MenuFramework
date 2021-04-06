@@ -10,7 +10,8 @@ namespace MenuFramework
 	{
 		public static TitleButtonManager Instance { get; private set; }
 
-		private void Awake() => Instance = this;
+		private void Awake() 
+			=> Instance = this;
 
 		public void CustomizeTitleScreen()
 		{
@@ -20,7 +21,9 @@ namespace MenuFramework
 				if (transform.GetComponent<Button>() != null)
 				{
 					var layoutElement = transform.GetComponent<LayoutElement>();
-					layoutElement.minHeight = -1f;
+
+					layoutElement.minHeight = 44.25f;
+					layoutElement.flexibleHeight = 1f;
 				}
 			}
 		}
@@ -45,6 +48,7 @@ namespace MenuFramework
 			submitActionMenu.SetValue("_menuToOpen", menuToOpen);
 
 			menuRootObject.SetActive(true);
+
 			return menuRootObject;
 		}
 
@@ -69,108 +73,32 @@ namespace MenuFramework
 
 		private GameObject CreateBase(string name)
 		{
-			var titleButton = new GameObject($"Button-{name}");
-			var mainMenuLayoutGroup = GameObject.Find("MainMenuLayoutGroup");
-			titleButton.transform.parent = mainMenuLayoutGroup.transform;
-			titleButton.transform.localPosition = Vector3.zero;
-			titleButton.transform.localScale = Vector3.one;
-			titleButton.transform.SetSiblingIndex(titleButton.transform.GetSiblingIndex() - 2);
-			titleButton.SetActive(false);
+			var newButton = Instantiate(Main.ButtonPrefab);
 
-			var rect = titleButton.AddComponent<RectTransform>();
-			rect.position = Vector3.zero;
-			rect.sizeDelta = new Vector2(500f, 44.25f);
+			// Make new button above dotted line and spacer
+			newButton.transform.parent = GameObject.Find("MainMenuLayoutGroup").transform;
+			newButton.transform.SetSiblingIndex(newButton.transform.GetSiblingIndex() - 2);
+			newButton.transform.localScale = Vector3.one;
 
-			var button = titleButton.AddComponent<Button>();
-			button.interactable = true;
-			button.transition = Selectable.Transition.None;
-			button.navigation = new Navigation
-			{
-				mode = Navigation.Mode.Vertical
-			};
+			// Change text, and set mesh to dirty (maybe not needed?)
+			newButton.transform.GetChild(0).GetChild(1).GetComponent<Text>().text = name;
+			newButton.transform.GetChild(0).GetChild(1).GetComponent<Text>().SetAllDirty();
 
-			var layoutElement = titleButton.AddComponent<LayoutElement>();
+			// Set to be invisible - the title menu animation will fade it back in
+			newButton.GetComponent<CanvasGroup>().alpha = 0f;
 
-			var canvasGroup = titleButton.AddComponent<CanvasGroup>();
-			canvasGroup.alpha = 0f;
-			canvasGroup.interactable = true;
-			canvasGroup.blocksRaycasts = true;
-			canvasGroup.ignoreParentGroups = false;
-
+			// Add to title menu animation
 			var animController = GameObject.Find("TitleMenuManagers").GetComponent<TitleAnimationController>();
 			var array = animController.GetValue<CanvasGroupFadeController[]>("_buttonFadeControllers");
 			var newLength = array.Length + 1;
 			Array.Resize(ref array, newLength);
 			array[newLength - 1] = new CanvasGroupFadeController
 			{
-				group = canvasGroup
+				group = newButton.GetComponent<CanvasGroup>()
 			};
 			animController.SetValue("_buttonFadeControllers", array);
 
-			titleButton.AddComponent<SelectableAudioPlayer>();
-
-			var verticalLayoutGroup = titleButton.AddComponent<VerticalLayoutGroup>();
-			verticalLayoutGroup.spacing = 0;
-			verticalLayoutGroup.childAlignment = TextAnchor.MiddleCenter;
-			verticalLayoutGroup.childForceExpandHeight = false;
-			verticalLayoutGroup.childForceExpandWidth = false;
-			verticalLayoutGroup.childControlHeight = true;
-			verticalLayoutGroup.childControlWidth = true;
-
-			var image = titleButton.AddComponent<Image>();
-			image.raycastTarget = true;
-			image.color = new Color(255, 255, 255, 0);
-
-			CreateButtonVisuals(titleButton, name);
-
-			return titleButton;
-		}
-
-		private void CreateButtonVisuals(GameObject button, string name)
-		{
-			var newLayoutGroup = Instantiate(GameObject.Find("Button-Options/LayoutGroup"));
-			newLayoutGroup.SetActive(false);
-			newLayoutGroup.transform.parent = button.transform;
-			newLayoutGroup.transform.localPosition = Vector3.zero;
-			newLayoutGroup.transform.localScale = Vector3.one;
-			var text = newLayoutGroup.transform.Find("Text");
-			Destroy(text.GetComponent<LocalizedText>());
-
-			text.GetComponent<Text>().text = name;
-			text.GetComponent<Text>().SetAllDirty();
-			text.GetComponent<RectTransform>().sizeDelta = new Vector2(0, 44.25f);
-
-			var leftArrow = newLayoutGroup.transform.Find("LeftArrow").GetComponent<Image>();
-			var rightArrow = newLayoutGroup.transform.Find("RightArrow").GetComponent<Image>();
-
-			leftArrow.GetComponent<LayoutElement>().preferredHeight = 40f;
-			leftArrow.GetComponent<LayoutElement>().preferredWidth = 40f;
-
-			var uiStyleApplier = button.AddComponent<UIStyleApplier>();
-			uiStyleApplier.SetValue("_textItems", new Text[1] { text.GetComponent<Text>() });
-			uiStyleApplier.SetValue("_foregroundGraphics",
-				new Graphic[3] {
-					text.GetComponent<Text>(),
-					leftArrow,
-					rightArrow
-				});
-			uiStyleApplier.SetValue("_backgroundGraphics", new Graphic[0]);
-			uiStyleApplier.SetValue("_onOffGraphicList",
-				new UIStyleApplier.OnOffGraphic[2]
-				{
-					new UIStyleApplier.OnOffGraphic()
-					{
-						graphic = leftArrow,
-						visibleHighlighted = true
-					},
-					new UIStyleApplier.OnOffGraphic()
-					{
-						graphic = rightArrow,
-						visibleHighlighted = true
-					}
-				});
-
-			newLayoutGroup.SetActive(true);
+			return newButton;
 		}
 	}
 }
