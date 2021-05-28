@@ -1,5 +1,4 @@
 ﻿using OWML.Utils;
-using System;
 using System.Linq;
 using UnityEngine;
 using UnityEngine.UI;

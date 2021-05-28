@@ -1,7 +1,6 @@
 ﻿using OWML.Common;
 using OWML.ModHelper;
 using OWML.Utils;
-using System.Linq;
 using UnityEngine;
 using UnityEngine.UI;
 
@@ -39,7 +38,7 @@ namespace MenuFramework
 			TitleButtonManager.Instance.CustomizeTitleScreen();
 		}
 
-		void OnSceneLoad(OWScene from, OWScene to)
+		private void OnSceneLoad(OWScene from, OWScene to)
 		{
 			if (to == OWScene.TitleScreen)
 			{

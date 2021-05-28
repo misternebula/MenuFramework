@@ -83,10 +83,8 @@ namespace TestMod
 			MakeTitleMenus();
 		}
 
-		public override void Configure(IModConfig config)
-		{
-			_suitUpOnTravel = config.GetSettingsValue<bool>("suitUpOnTravel");
-		}
+		public override void Configure(IModConfig config) 
+			=> _suitUpOnTravel = config.GetSettingsValue<bool>("suitUpOnTravel");
 
 		private void OnSceneLoaded(OWScene originalScene, OWScene scene)
 		{
