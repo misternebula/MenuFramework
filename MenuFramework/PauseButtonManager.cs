@@ -60,8 +60,8 @@ namespace MenuFramework
 			}
 			var menuRootObject = CreateBase(name, customMenu);
 
-			var submitActionLoadScene = menuRootObject.AddComponent<SubmitActionLoadScene>();
-			submitActionLoadScene.SetSceneToLoad(sceneToLoad);
+			var submitActionLoadScene = menuRootObject.AddComponent<CustomSubmitActionLoadScene>();
+			submitActionLoadScene.SetSceneToLoad((CustomSubmitActionLoadScene.LoadableScenes)sceneToLoad);
 			submitActionLoadScene.EnableConfirm(confirmPopup != null);
 			submitActionLoadScene.SetValue("_confirmPopup", confirmPopup);
 			submitActionLoadScene.SetValue("_loadingText", menuRootObject.GetComponentInChildren<Text>());

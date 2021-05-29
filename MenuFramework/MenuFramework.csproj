@@ -99,6 +99,7 @@
     </Reference>
   </ItemGroup>
   <ItemGroup>
+    <Compile Include="CustomSubmitActionLoadScene.cs" />
     <Compile Include="Main.cs" />
     <Compile Include="MenuAPI.cs" />
     <Compile Include="PauseButtonManager.cs" />

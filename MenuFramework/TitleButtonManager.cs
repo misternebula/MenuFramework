@@ -53,6 +53,7 @@ namespace MenuFramework
 
 		public GameObject MakeSceneLoadButton(string name, SubmitActionLoadScene.LoadableScenes sceneToLoad, PopupMenu confirmPopup = null)
 		{
+			Main.Helper.Console.WriteLine($"Make scene load button. name:{name}, scene:{sceneToLoad}, confirmPopup:{(confirmPopup == null ? "null" : confirmPopup.name)}");
 			if (LoadManager.GetCurrentScene() != OWScene.TitleScreen)
 			{
 				Main.Helper.Console.WriteLine("Error - Cannot create title button in this scene!", OWML.Common.MessageType.Error);
@@ -60,8 +61,8 @@ namespace MenuFramework
 			}
 			var menuRootObject = CreateBase(name);
 
-			var submitActionLoadScene = menuRootObject.AddComponent<SubmitActionLoadScene>();
-			submitActionLoadScene.SetSceneToLoad(sceneToLoad);
+			var submitActionLoadScene = menuRootObject.AddComponent<CustomSubmitActionLoadScene>();
+			submitActionLoadScene.SetSceneToLoad((CustomSubmitActionLoadScene.LoadableScenes)sceneToLoad);
 			submitActionLoadScene.EnableConfirm(confirmPopup != null);
 			submitActionLoadScene.SetValue("_confirmPopup", confirmPopup);
 			submitActionLoadScene.SetValue("_loadingText", menuRootObject.GetComponentInChildren<Text>());
