@@ -28,6 +28,10 @@ namespace MenuFramework
 		public Menu PauseMenu_MakePauseListMenu(string title)
 			=> PauseButtonManager.Instance.MakePauseListMenu(title);
 
+		// OPTIONS
+		public Menu OptionsMenu_MakeNonScrollingOptionsTab(string name)
+			=> OptionsMenuManager.Instance.MakeNonScrollingOptionsTab(name);
+
 		// MISC
 		public PopupMenu MakeTwoChoicePopup(string message, string confirmText, string cancelText)
 			=> PopupMenuManager.Instance.CreateTwoChoicePopup(message, confirmText, cancelText);

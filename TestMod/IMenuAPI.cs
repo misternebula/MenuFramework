@@ -14,6 +14,8 @@ namespace TestMod
 		GameObject PauseMenu_MakeSceneLoadButton(string name, SubmitActionLoadScene.LoadableScenes sceneToLoad, PopupMenu confirmPopup = null, Menu customMenu = null);
 		Button PauseMenu_MakeSimpleButton(string name, Menu customMenu = null);
 		Menu PauseMenu_MakePauseListMenu(string title);
+		// Options
+		Menu OptionsMenu_MakeNonScrollingOptionsTab(string name);
 		// Misc
 		PopupMenu MakeTwoChoicePopup(string message, string confirmText, string cancelText);
 		PopupInputMenu MakeInputFieldPopup(string message, string placeholderMessage, string confirmText, string cancelText);
