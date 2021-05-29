@@ -20,13 +20,14 @@ namespace MenuFramework
 		{
 			Helper = ModHelper;
 
-			MenuBundle = Main.Helper.Assets.LoadBundle("assets/menuframework");
+			MenuBundle = Helper.Assets.LoadBundle("assets/menuframework");
 			SetUpButtonPrefab();
 			SetUpPauseList();
 
 			gameObject.AddComponent<TitleButtonManager>();
 			gameObject.AddComponent<PopupMenuManager>();
 			gameObject.AddComponent<PauseButtonManager>();
+			gameObject.AddComponent<OptionsMenuManager>();
 
 			LoadManager.OnCompleteSceneLoad += OnSceneLoad;
 
