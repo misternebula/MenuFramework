@@ -9,68 +9,14 @@ namespace TestMod
 {
 	public class Class1 : ModBehaviour
 	{
-		/*
-		public IMenuAPI MenuApi;
-
-		public void Start()
-		{
-			LoadManager.OnCompleteSceneLoad += OnSceneLoaded;
-			MenuApi = ModHelper.Interaction.GetModApi<IMenuAPI>("_nebula.MenuFramework");
-			MakeTitleMenus();
-		}
-
-		private void MakePauseMenus()
-		{
-			var customMenu = MenuApi.PauseMenu_MakePauseListMenu("TELEPORT");
-
-			MenuApi.PauseMenu_MakeMenuOpenButton("TELEPORT TO...", customMenu);
-			var shipButton = MenuApi.PauseMenu_MakeSimpleButton("SHIP", customMenu);
-
-			shipButton.onClick.AddListener(WarpToShip);
-		}
-
-		private void WarpToShip()
-		{
-			var playerSpawner = Locator.GetPlayerBody().GetComponent<PlayerSpawner>();
-			playerSpawner.DebugWarp(playerSpawner.GetSpawnPoint(SpawnLocation.Ship));
-		}
-
-		private void MakeTitleMenus()
-		{
-			var twoChoicePopup = MenuApi.MakeTwoChoicePopup("Do thing?", "Yes", "No");
-			var inputPopup = MenuApi.MakeInputFieldPopup("Enter message :", "Put message here!", "Confirm", "Cancel");
-			inputPopup.GetComponent<PopupInputMenu>().OnPopupConfirm += () => ModHelper.Console.WriteLine(inputPopup.GetComponent<PopupInputMenu>().GetInputText());
-
-			MenuApi.TitleScreen_MakeMenuOpenButton("two choice", twoChoicePopup.GetComponent<Menu>());
-			MenuApi.TitleScreen_MakeMenuOpenButton("input", inputPopup.GetComponent<Menu>());
-			MenuApi.TitleScreen_MakeSceneLoadButton("confirm load eye", SubmitActionLoadScene.LoadableScenes.EYE, twoChoicePopup.GetComponent<PopupMenu>());
-			MenuApi.TitleScreen_MakeSceneLoadButton("load eye", SubmitActionLoadScene.LoadableScenes.EYE);
-		}
-
-		private void OnSceneLoaded(OWScene from, OWScene to)
-		{
-			switch (to)
-			{
-				case OWScene.EyeOfTheUniverse:
-				case OWScene.SolarSystem:
-					MakePauseMenus();
-					break;
-				case OWScene.TitleScreen:
-					MakeTitleMenus();
-					break;
-			}
-		}
-		*/
-
 		private FluidDetector _fluidDetector;
-		private SpawnPoint _prevSpawnPoint;
 		private SaveFile _saveFile;
 		private bool _isSolarSystemLoaded;
 		private const string SAVE_FILE = "savefile.json";
 		private bool _suitUpOnTravel = true;
 		public IMenuAPI MenuApi;
 
-		private void Start()
+		public void Start()
 		{
 			MenuApi = ModHelper.Interaction.GetModApi<IMenuAPI>("_nebula.MenuFramework");
 			ModHelper.Events.Subscribe<Flashlight>(Events.AfterStart);
@@ -110,11 +56,11 @@ namespace TestMod
 
 		private void MakeTitleMenus()
 		{
-			var twoChoicePopup = MenuApi.MakeTwoChoicePopup("Do thing?", "Yes", "No");
-			var inputPopup = MenuApi.MakeInputFieldPopup("Enter message :", "Put message here!", "Confirm", "Cancel");
+			var twoChoicePopup = MenuApi.MakeTwoChoicePopup("This is a two-choice popup.", "Confirm option", "Cancel option");
+			var inputPopup = MenuApi.MakeInputFieldPopup("This is a input field popup.", "Placeholder message", "Confirm option", "Cancel option");
 			inputPopup.GetComponent<PopupInputMenu>().OnPopupConfirm += () => ModHelper.Console.WriteLine(inputPopup.GetComponent<PopupInputMenu>().GetInputText());
 
-			MenuApi.TitleScreen_MakeMenuOpenButton("OPTIONS", twoChoicePopup.GetComponent<Menu>());
+			MenuApi.TitleScreen_MakeMenuOpenButton("TWO CHOICE", twoChoicePopup.GetComponent<Menu>());
 			MenuApi.TitleScreen_MakeMenuOpenButton("INPUT", inputPopup.GetComponent<Menu>());
 			MenuApi.TitleScreen_MakeSceneLoadButton("LOAD EYE (CONFIRM)", SubmitActionLoadScene.LoadableScenes.EYE, twoChoicePopup.GetComponent<PopupMenu>());
 			MenuApi.TitleScreen_MakeSceneLoadButton("LOAD EYE", SubmitActionLoadScene.LoadableScenes.EYE);
@@ -126,13 +72,11 @@ namespace TestMod
 
 			var pauseButton = MenuApi.PauseMenu_MakeSimpleButton("TELEPORT TO...");
 
-			var shipSpawnMenu = MenuApi.PauseMenu_MakePauseListMenu("Ship Spawn Points");
-			//shipSpawnMenu.transform.localScale *= 0.5f;
-			//shipSpawnMenu.transform.localPosition *= 0.5f;
+			var twoChoicePopup = MenuApi.MakeTwoChoicePopup("This is a two-choice popup.", "Confirm option", "Cancel option");
+			MenuApi.PauseMenu_MakeMenuOpenButton("TWO CHOICE", twoChoicePopup.GetComponent<Menu>());
 
+			var shipSpawnMenu = MenuApi.PauseMenu_MakePauseListMenu("Ship Spawn Points");
 			var playerSpawnMenu = MenuApi.PauseMenu_MakePauseListMenu("Player Spawn Points");
-			//playerSpawnMenu.transform.localScale *= 0.5f;
-			//playerSpawnMenu.transform.localPosition *= 0.5f;
 
 			pauseButton.onClick.AddListener(OnClickPauseMenuButton);
 
@@ -171,15 +115,12 @@ namespace TestMod
 					menu.EnableMenu(false);
 					CloseMenu();
 					SpawnAt(spawnpoint);
-					_prevSpawnPoint = spawnpoint;
 				}
 			}
 
 			void CreateSpawnPointList(List<SpawnPoint> spawnPoints, AstroObject astroObject, Menu buttonAttachMenu)
 			{
 				var newMenu = MenuApi.PauseMenu_MakePauseListMenu(GetAstroObjectName(astroObject));
-				//newMenu.transform.localScale *= 0.5f;
-				//newMenu.transform.localPosition *= 0.5f;
 
 				MenuApi.PauseMenu_MakeMenuOpenButton(GetAstroObjectName(astroObject), newMenu, buttonAttachMenu);
 
@@ -193,8 +134,6 @@ namespace TestMod
 			void CreateNoAstroSpawnPointList(List<SpawnPoint> spawnPoints, Menu buttonAttachMenu)
 			{
 				var newMenu = MenuApi.PauseMenu_MakePauseListMenu("NO ASTROOBJECTS");
-				//newMenu.transform.localScale *= 0.5f;
-				//newMenu.transform.localPosition *= 0.5f;
 
 				MenuApi.PauseMenu_MakeMenuOpenButton("No AstroObject...", newMenu, buttonAttachMenu);
 
@@ -328,7 +267,7 @@ namespace TestMod
 			Locator.GetPlayerSuit().SuitUp();
 		}
 
-		private void LateUpdate()
+		public void LateUpdate()
 		{
 			if (_isSolarSystemLoaded && _saveFile.initialSpawnPoint != "")
 			{
