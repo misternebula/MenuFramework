@@ -16,5 +16,11 @@ namespace MenuFramework
 
 		public static void SetBottom(this RectTransform rt, float bottom) 
 			=> rt.offsetMin = new Vector2(rt.offsetMin.x, bottom);
+
+		public static void SetHeight(this RectTransform rt, float height)
+			=> rt.sizeDelta = new Vector2(rt.sizeDelta.x, height);
+
+		public static void SetPosY(this RectTransform rt, float posY)
+			=> rt.anchoredPosition3D = new Vector3(rt.anchoredPosition3D.x, posY, rt.anchoredPosition3D.z);
 	}
 }
