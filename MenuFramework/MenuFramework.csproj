@@ -102,6 +102,7 @@
     <Compile Include="CustomSubmitActionLoadScene.cs" />
     <Compile Include="Main.cs" />
     <Compile Include="MenuAPI.cs" />
+    <Compile Include="OptionsMenuManager.cs" />
     <Compile Include="PauseButtonManager.cs" />
     <Compile Include="PopupMenuManager.cs" />
     <Compile Include="Properties\AssemblyInfo.cs" />
