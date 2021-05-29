@@ -20,11 +20,6 @@ namespace MenuFramework
 		{
 			Helper = ModHelper;
 
-			if (AdobeSerifGothicStdExtraBold == null)
-			{
-				Helper.Console.WriteLine($"font is null!");
-			}
-
 			MenuBundle = Main.Helper.Assets.LoadBundle("assets/menuframework");
 			SetUpButtonPrefab();
 			SetUpPauseList();
