@@ -64,7 +64,9 @@ namespace TestMod
 			MenuApi.TitleScreen_MakeMenuOpenButton("INPUT", inputPopup.GetComponent<Menu>());
 			MenuApi.TitleScreen_MakeSceneLoadButton("LOAD EYE (CONFIRM)", SubmitActionLoadScene.LoadableScenes.EYE, twoChoicePopup.GetComponent<PopupMenu>());
 			MenuApi.TitleScreen_MakeSceneLoadButton("LOAD EYE", SubmitActionLoadScene.LoadableScenes.EYE);
-			MenuApi.OptionsMenu_MakeNonScrollingOptionsTab("TEST");
+
+			var menu = MenuApi.OptionsMenu_MakeNonScrollingOptionsTab("TEST");
+			MenuApi.OptionsMenu_MakeTwoButtonToggle("TEST", "TRUE", "FALSE", "TOOPTIP", menu);
 		}
 
 		private void Init()

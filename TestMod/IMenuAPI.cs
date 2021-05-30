@@ -16,6 +16,7 @@ namespace TestMod
 		Menu PauseMenu_MakePauseListMenu(string title);
 		// Options
 		Menu OptionsMenu_MakeNonScrollingOptionsTab(string name);
+		GameObject OptionsMenu_MakeTwoButtonToggle(string label, string trueText, string falseText, string tooltipText, Menu menuTab);
 		// Misc
 		PopupMenu MakeTwoChoicePopup(string message, string confirmText, string cancelText);
 		PopupInputMenu MakeInputFieldPopup(string message, string placeholderMessage, string confirmText, string cancelText);

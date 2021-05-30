@@ -8,15 +8,124 @@ using UnityEngine.UI;
 
 namespace MenuFramework
 {
+	public static class Patches
+	{
+		public static bool TabButton_InitializeNavigation(
+			TabButton __instance,
+			ref Button ____mySelectable,
+			ref Selectable ____firstSelectable,
+			Menu ____tabbedMenu,
+			ref bool ____navigationInitialized)
+		{
+			Main.Helper.Console.WriteLine($"{__instance.name} - Init Navigation", OWML.Common.MessageType.Info);
+			if (____mySelectable == null)
+			{
+				Main.Helper.Console.WriteLine($"{__instance.name} - mySelectable null 1", OWML.Common.MessageType.Error);
+				____mySelectable = __instance.GetRequiredComponent<Button>();
+				if (____mySelectable == null)
+				{
+					Main.Helper.Console.WriteLine($"{__instance.name} - mySelectable null 2!!", OWML.Common.MessageType.Error);
+					return false;
+				}
+				else
+				{
+					Main.Helper.Console.WriteLine($"{__instance.name} - mySelectable ok");
+				}
+			}
+			else
+			{
+				Main.Helper.Console.WriteLine($"{__instance.name} - mySelectable ok");
+			}
+
+			if (____firstSelectable == null)
+			{
+				Main.Helper.Console.WriteLine($"{__instance.name} - firstSelectable null 1", OWML.Common.MessageType.Error);
+				____firstSelectable = ____tabbedMenu.GetSelectOnActivate();
+				if (____firstSelectable == null)
+				{
+					Main.Helper.Console.WriteLine($"{__instance.name} - firstSelectable null 2!! menu:{____tabbedMenu.name}", OWML.Common.MessageType.Error);
+					return false;
+				}
+				else
+				{
+					Main.Helper.Console.WriteLine($"{__instance.name} - firstSelectable ok");
+				}
+			}
+			else
+			{
+				Main.Helper.Console.WriteLine($"{__instance.name} - firstSelectable ok");
+			}
+
+			if (!____navigationInitialized)
+			{
+				Main.Helper.Console.WriteLine($"{__instance.name} - nav not init-ed");
+				____navigationInitialized = true;
+
+				var selectOnActivate = ____tabbedMenu.GetSelectOnActivate();
+				if (selectOnActivate == null)
+				{
+					Main.Helper.Console.WriteLine($"{__instance.name} - selectOnActivate null!", OWML.Common.MessageType.Error);
+					return false;
+				}
+
+				var navigation = ____mySelectable.navigation;
+				navigation.selectOnDown = selectOnActivate;
+				____mySelectable.navigation = navigation;
+				var navigation2 = selectOnActivate.navigation;
+				selectOnActivate.navigation = navigation2;
+			}
+			else
+			{
+				Main.Helper.Console.WriteLine($"{__instance.name} - nav already init-ed");
+			}
+
+			return false;
+		}
+
+		public static bool TabbedMenu_GetSelectOnActivate(TabbedMenu __instance, ref Selectable __result, ref Selectable ____selectOnActivate, TabButton ____lastSelectedTabButton)
+		{
+			Main.Helper.Console.WriteLine($"{__instance.name} - override getselectonactivate", OWML.Common.MessageType.Info);
+			__instance.Invoke("Initialize");
+			____selectOnActivate = ____lastSelectedTabButton.GetSelectableMenuOptionOnOpen();
+			Main.Helper.Console.WriteLine($"{__instance.name} - last selected tab button is : {____lastSelectedTabButton.name}");
+			Main.Helper.Console.WriteLine($"{__instance.name} - return null? : {____selectOnActivate == null}");
+			__result = ____selectOnActivate;
+			return false;
+		}
+
+		public static bool Menu_GetSelectOnActivate(Menu __instance, ref Selectable __result, Selectable ____selectOnActivate)
+		{
+			Main.Helper.Console.WriteLine($"{__instance.name} - getselectonactivate", OWML.Common.MessageType.Info);
+			Main.Helper.Console.WriteLine($"{__instance.name} - return null? : {____selectOnActivate == null}");
+			__result = ____selectOnActivate;
+			return false;
+		}
+
+		public static bool Menu_SetSelectOnActivate(Menu __instance, ref Selectable ____selectOnActivate, Selectable s)
+		{
+			Main.Helper.Console.WriteLine($"{__instance.name} - setselectonactivate", OWML.Common.MessageType.Info);
+			Main.Helper.Console.WriteLine($"{__instance.name} - s null? : {s == null}");
+			____selectOnActivate = s;
+			Main.Helper.Console.WriteLine($"{__instance.name} - selectOnActivate null? : {____selectOnActivate == null}");
+			return false;
+		}
+	}
 	class OptionsMenuManager : MonoBehaviour
 	{
 		public static OptionsMenuManager Instance { get; private set; }
 
-		private void Awake() => Instance = this;
+		private void Awake()
+		{
+			Instance = this;
+			Main.Helper.HarmonyHelper.AddPrefix<TabButton>("InitializeNavigation", typeof(Patches), nameof(Patches.TabButton_InitializeNavigation));
+			Main.Helper.HarmonyHelper.AddPrefix<TabbedMenu>("GetSelectOnActivate", typeof(Patches), nameof(Patches.TabbedMenu_GetSelectOnActivate));
+			Main.Helper.HarmonyHelper.AddPrefix<Menu>("GetSelectOnActivate", typeof(Patches), nameof(Patches.Menu_GetSelectOnActivate));
+			Main.Helper.HarmonyHelper.AddPrefix<Menu>("SetSelectOnActivate", typeof(Patches), nameof(Patches.Menu_SetSelectOnActivate));
+		}
+
 
 		public Menu MakeNonScrollingOptionsTab(string name)
 		{
-			Main.Helper.Console.WriteLine("making new button");
 			var newButton = Instantiate(Resources.FindObjectsOfTypeAll<Button>().First(x => x.name == "Button-Graphics" && x.transform.parent.name == "TabButtons" && x.transform.parent.parent.name == "Tabs").gameObject);
 			newButton.name = $"Button-{name}";
 			newButton.transform.parent = GameObject.Find("OptionsCanvas").transform.Find("OptionsMenu-Panel").transform.Find("Tabs").transform.Find("TabButtons");
@@ -24,16 +133,13 @@ namespace MenuFramework
 			
 			var text = newButton.transform.Find("Text").GetComponent<Text>();
 			text.text = name;
-			Destroy(text.GetComponent<LocalizedText>());
 
-			Main.Helper.Console.WriteLine("making new menu");
+			Destroy(text.GetComponent<LocalizedText>());
 			var newMenu = new GameObject($"{name}Menu");
 			newMenu.SetActive(false);
 
-			Main.Helper.Console.WriteLine("setting parent");
 			newMenu.transform.parent = GameObject.Find("OptionsCanvas").transform.Find("OptionsMenu-Panel").transform.Find("OptionsDisplayPanel");
 
-			Main.Helper.Console.WriteLine("making new menu rt");
 			var rectTransform = newMenu.AddComponent<RectTransform>();
 			rectTransform.anchorMin = new Vector2(0, 1);
 			rectTransform.anchorMax = new Vector2(1, 1);
@@ -44,10 +150,13 @@ namespace MenuFramework
 			rectTransform.SetPosY(-50);
 			newMenu.transform.localScale = Vector3.one;
 
-			Main.Helper.Console.WriteLine("adding canvas renderer");
 			newMenu.AddComponent<CanvasRenderer>();
 
 			var menu = newMenu.AddComponent<Menu>();
+			if (newButton.GetComponent<Button>() == null)
+			{
+				Main.Helper.Console.WriteLine("NO BUTTON!");
+			}
 			newButton.GetComponent<TabButton>().SetValue("_tabbedMenu", menu);
 
 			var layoutGroup = new GameObject("LayoutGroup");
@@ -71,11 +180,75 @@ namespace MenuFramework
 
 			newMenu.SetActive(true);
 
+			var tabbedOptionMenu = GameObject.Find("OptionsCanvas").transform.Find("OptionsMenu-Panel").GetComponent<TabbedOptionMenu>();
+			var currentList = tabbedOptionMenu.GetValue<TabButton[]>("_menuTabs").ToList();
+			currentList.Add(newButton.GetComponent<TabButton>());
+			tabbedOptionMenu.SetValue("_menuTabs", currentList.ToArray());
+
 			return menu;
 		}
 
 		public GameObject CreateTwoButtonToggle(string label, string trueText, string falseText, string tooltipText, Menu menuTab)
 		{
+			var newElement = new GameObject($"UIElement-{label}");
+			newElement.SetActive(false);
+
+			var menuType = GetMenuType(menuTab);
+			if (menuType == CurrentMenuType.None)
+			{
+				Main.Helper.Console.WriteLine("INCORRECT MENU FORMAT?!?");
+				return null;
+			}
+			ChildUIElement(newElement, menuTab, menuType);
+			newElement.AddComponent<RectTransform>();
+			newElement.AddComponent<CanvasRenderer>();
+			var twoButton = newElement.AddComponent<TwoButtonToggleElement>();
+			twoButton.SetValue("_tooltipTextType", UITextType.None);
+			twoButton.SetValue("_testText", tooltipText); // Thanks Mobius! :P
+
+			var button = newElement.GetAddComponent<Button>();
+
+			var layout = newElement.AddComponent<LayoutElement>();
+			layout.minHeight = 70;
+			layout.flexibleWidth = 1;
+
+			if (menuTab.GetSelectOnActivate() == null)
+			{
+				menuTab.SetSelectOnActivate(button);
+			}
+			newElement.SetActive(true);
+			return newElement;
+		}
+
+		private void ChildUIElement(GameObject element, Menu menuTab, CurrentMenuType type)
+		{
+			if (type == CurrentMenuType.NonScrolling)
+			{
+				element.transform.parent = menuTab.transform.GetChild(0);
+				return;
+			}
+			element.transform.parent = menuTab.transform.GetChild(0).GetChild(0).GetChild(0);
+		}
+
+		private CurrentMenuType GetMenuType(Menu menuTab)
+		{
+			var child0 = menuTab.transform.GetChild(0);
+			if (child0.name == "LayoutGroup")
+			{
+				return CurrentMenuType.NonScrolling;
+			}
+			else if (child0.name == "Scroll View")
+			{
+				return CurrentMenuType.Scrolling;
+			}
+			return CurrentMenuType.None;
+		}
+
+		private enum CurrentMenuType
+		{
+			None,
+			NonScrolling,
+			Scrolling
 		}
 	}
 }
