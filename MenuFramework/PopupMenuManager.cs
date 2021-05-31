@@ -14,10 +14,6 @@ namespace MenuFramework
 		{
 			Instance = this;
 
-			foreach (var item in Resources.FindObjectsOfTypeAll<PopupMenu>())
-			{
-				Main.Helper.Console.WriteLine($"- {item.name} parent:{item.transform.parent.name} grandparent:{item.transform.parent.parent.name}");
-			}
 			_inputPopupBase = Instantiate(Resources.FindObjectsOfTypeAll<PopupMenu>().First(x => x.name == "InputField-Popup" && x.transform.parent.name == "PopupCanvas" && x.transform.parent.parent.name == "TitleMenu").gameObject);
 			DontDestroyOnLoad(_inputPopupBase);
 			_inputPopupBase.SetActive(false);
@@ -29,7 +25,6 @@ namespace MenuFramework
 
 		public PopupMenu CreateTwoChoicePopup(string message, string confirmText, string cancelText)
 		{
-			Main.Helper.Console.WriteLine($"Create two-choice, message:{message}, confirm:{confirmText}, cancel:{cancelText}");
 			var newPopup = Instantiate(_twoChoicePopupBase);
 
 			switch (LoadManager.GetCurrentScene())
@@ -54,7 +49,6 @@ namespace MenuFramework
 
 		public PopupInputMenu CreateInputFieldPopup(string message, string placeholderMessage, string confirmText, string cancelText)
 		{
-			Main.Helper.Console.WriteLine($"Create input field, message:{message}, placeholder:{placeholderMessage}, confirm:{confirmText}, cancel:{cancelText}");
 			var newPopup = Instantiate(_inputPopupBase);
 
 			switch (LoadManager.GetCurrentScene())

@@ -10,6 +10,7 @@ namespace MenuFramework
 {
 	public static class Patches
 	{
+		/*
 		public static bool TabButton_InitializeNavigation(
 			TabButton __instance,
 			ref Button ____mySelectable,
@@ -93,6 +94,7 @@ namespace MenuFramework
 			return false;
 		}
 
+		
 		public static bool Menu_GetSelectOnActivate(Menu __instance, ref Selectable __result, Selectable ____selectOnActivate)
 		{
 			Main.Helper.Console.WriteLine($"{__instance.name} - getselectonactivate", OWML.Common.MessageType.Info);
@@ -109,6 +111,79 @@ namespace MenuFramework
 			Main.Helper.Console.WriteLine($"{__instance.name} - selectOnActivate null? : {____selectOnActivate == null}");
 			return false;
 		}
+		*/
+
+		public static bool Menu_EnableMenu(Menu __instance, bool value)
+		{
+			if (MenuStackManager.SharedInstance.Peek() == null)
+			{
+				if (value)
+				{
+					Main.Helper.Console.WriteLine($"ENABLE {__instance.name} (top of stack : none)", OWML.Common.MessageType.Info);
+				}
+				else
+				{
+					Main.Helper.Console.WriteLine($"DISABLE {__instance.name} (top of stack : none)", OWML.Common.MessageType.Warning);
+				}
+			}
+			else
+			{
+				if (value)
+				{
+					Main.Helper.Console.WriteLine($"ENABLE {__instance.name} (top of stack : {MenuStackManager.SharedInstance.Peek().name})", OWML.Common.MessageType.Info);
+				}
+				else
+				{
+					Main.Helper.Console.WriteLine($"DISABLE {__instance.name} (top of stack : {MenuStackManager.SharedInstance.Peek().name})", OWML.Common.MessageType.Warning);
+				}
+			}
+			
+			return true;
+		}
+
+		public static bool TabButton_Enable(TabButton __instance, bool value)
+		{
+			if (value)
+			{
+				Main.Helper.Console.WriteLine($"TAB-BUTTON ENABLE {__instance.name}", OWML.Common.MessageType.Info);
+			}
+			else
+			{
+				Main.Helper.Console.WriteLine($"TAB-BUTTON DISABLE {__instance.name}", OWML.Common.MessageType.Warning);
+			}
+			return true;
+		}
+
+		public static bool TabbedMenu_Deactivate(TabbedMenu __instance)
+		{
+			Main.Helper.Console.WriteLine($"DEACTIVATE {__instance.name}", OWML.Common.MessageType.Warning);
+			return true;
+		}
+
+		public static bool TabbedMenu_SelectTabButton(TabbedMenu __instance, TabButton tabButton)
+		{
+			Main.Helper.Console.WriteLine($"SelectTabButton {__instance.name} - {tabButton.name}", OWML.Common.MessageType.Info);
+			return true;
+		}
+
+		public static bool MenuStackManager_Pop()
+		{
+			Main.Helper.Console.WriteLine($"POP {MenuStackManager.SharedInstance.Peek().name}", OWML.Common.MessageType.Error);
+			return true;
+		}
+
+		public static bool MenuStackManager_Push(Menu menu)
+		{
+			if (MenuStackManager.SharedInstance.Peek() != null)
+			{
+				Main.Helper.Console.WriteLine($"PUSH {menu.name} disabling {MenuStackManager.SharedInstance.Peek().name}", OWML.Common.MessageType.Success);
+			}
+			else
+			{
+				Main.Helper.Console.WriteLine($"PUSH {menu.name}", OWML.Common.MessageType.Success);
+			}
+			return true;
+		}
 	}
 	class OptionsMenuManager : MonoBehaviour
 	{
@@ -117,10 +192,16 @@ namespace MenuFramework
 		private void Awake()
 		{
 			Instance = this;
-			Main.Helper.HarmonyHelper.AddPrefix<TabButton>("InitializeNavigation", typeof(Patches), nameof(Patches.TabButton_InitializeNavigation));
-			Main.Helper.HarmonyHelper.AddPrefix<TabbedMenu>("GetSelectOnActivate", typeof(Patches), nameof(Patches.TabbedMenu_GetSelectOnActivate));
-			Main.Helper.HarmonyHelper.AddPrefix<Menu>("GetSelectOnActivate", typeof(Patches), nameof(Patches.Menu_GetSelectOnActivate));
-			Main.Helper.HarmonyHelper.AddPrefix<Menu>("SetSelectOnActivate", typeof(Patches), nameof(Patches.Menu_SetSelectOnActivate));
+			//Main.Helper.HarmonyHelper.AddPrefix<TabButton>("InitializeNavigation", typeof(Patches), nameof(Patches.TabButton_InitializeNavigation));
+			//Main.Helper.HarmonyHelper.AddPrefix<TabbedMenu>("GetSelectOnActivate", typeof(Patches), nameof(Patches.TabbedMenu_GetSelectOnActivate));
+			//Main.Helper.HarmonyHelper.AddPrefix<Menu>("GetSelectOnActivate", typeof(Patches), nameof(Patches.Menu_GetSelectOnActivate));
+			//Main.Helper.HarmonyHelper.AddPrefix<Menu>("SetSelectOnActivate", typeof(Patches), nameof(Patches.Menu_SetSelectOnActivate));
+			Main.Helper.HarmonyHelper.AddPrefix<Menu>("EnableMenu", typeof(Patches), nameof(Patches.Menu_EnableMenu));
+			Main.Helper.HarmonyHelper.AddPrefix<TabButton>("Enable", typeof(Patches), nameof(Patches.TabButton_Enable));
+			Main.Helper.HarmonyHelper.AddPrefix<TabbedMenu>("Deactivate", typeof(Patches), nameof(Patches.TabbedMenu_Deactivate));
+			Main.Helper.HarmonyHelper.AddPrefix<TabbedMenu>("SelectTabButton", typeof(Patches), nameof(Patches.TabbedMenu_SelectTabButton));
+			Main.Helper.HarmonyHelper.AddPrefix<MenuStackManager>("Pop", typeof(Patches), nameof(Patches.MenuStackManager_Pop));
+			Main.Helper.HarmonyHelper.AddPrefix<MenuStackManager>("Push", typeof(Patches), nameof(Patches.MenuStackManager_Push));
 		}
 
 
@@ -137,6 +218,7 @@ namespace MenuFramework
 			Destroy(text.GetComponent<LocalizedText>());
 			var newMenu = new GameObject($"{name}Menu");
 			newMenu.SetActive(false);
+			newMenu.layer = 5;
 
 			newMenu.transform.parent = GameObject.Find("OptionsCanvas").transform.Find("OptionsMenu-Panel").transform.Find("OptionsDisplayPanel");
 
@@ -153,6 +235,7 @@ namespace MenuFramework
 			newMenu.AddComponent<CanvasRenderer>();
 
 			var menu = newMenu.AddComponent<Menu>();
+			menu.SetValue("_addToMenuStackManager", false);
 			if (newButton.GetComponent<Button>() == null)
 			{
 				Main.Helper.Console.WriteLine("NO BUTTON!");
@@ -161,6 +244,7 @@ namespace MenuFramework
 
 			var layoutGroup = new GameObject("LayoutGroup");
 			layoutGroup.transform.parent = newMenu.transform;
+			layoutGroup.layer = 5;
 
 			var layoutRt = layoutGroup.AddComponent<RectTransform>();
 			layoutRt.anchorMin = Vector2.zero;
@@ -178,12 +262,12 @@ namespace MenuFramework
 			VLG.childForceExpandHeight = false;
 			VLG.childForceExpandWidth = false;
 
-			newMenu.SetActive(true);
-
 			var tabbedOptionMenu = GameObject.Find("OptionsCanvas").transform.Find("OptionsMenu-Panel").GetComponent<TabbedOptionMenu>();
 			var currentList = tabbedOptionMenu.GetValue<TabButton[]>("_menuTabs").ToList();
 			currentList.Add(newButton.GetComponent<TabButton>());
 			tabbedOptionMenu.SetValue("_menuTabs", currentList.ToArray());
+
+			newMenu.SetActive(true);
 
 			return menu;
 		}
@@ -192,11 +276,12 @@ namespace MenuFramework
 		{
 			var newElement = new GameObject($"UIElement-{label}");
 			newElement.SetActive(false);
+			newElement.layer = 5;
 
 			var menuType = GetMenuType(menuTab);
 			if (menuType == CurrentMenuType.None)
 			{
-				Main.Helper.Console.WriteLine("INCORRECT MENU FORMAT?!?");
+				Main.Helper.Console.WriteLine("INCORRECT MENU FORMAT");
 				return null;
 			}
 			ChildUIElement(newElement, menuTab, menuType);
@@ -224,9 +309,11 @@ namespace MenuFramework
 		{
 			if (type == CurrentMenuType.NonScrolling)
 			{
+				Main.Helper.Console.WriteLine($"Childing {element.name} to {menuTab.name}/{menuTab.transform.GetChild(0).name}");
 				element.transform.parent = menuTab.transform.GetChild(0);
 				return;
 			}
+			Main.Helper.Console.WriteLine($"Childing {element.name} to {menuTab.name}/{menuTab.transform.GetChild(0).name}/{menuTab.transform.GetChild(0).GetChild(0).name}/{menuTab.transform.GetChild(0).GetChild(0).GetChild(0).name}");
 			element.transform.parent = menuTab.transform.GetChild(0).GetChild(0).GetChild(0);
 		}
 
