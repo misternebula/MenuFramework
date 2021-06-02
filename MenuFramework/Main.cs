@@ -16,7 +16,10 @@ namespace MenuFramework
 		public static GameObject TwoButtonElementPrefab { get; private set; }
 		public static GameObject NonDisplaySliderElementPrefab { get; private set; }
 		public static GameObject LabelElementPrefab { get; private set; }
+		public static GameObject TextInputElementPrefab { get; private set; }
+
 		public static Font AdobeSerifGothicStdExtraBold => (Font)Resources.Load("fonts/english - latin/Adobe - SerifGothicStd-ExtraBold");
+		//public static Font AdobeSerifGothicStdDynamic => (Font)Resources.Load("fonts/english - latin/Adobe - SerifGothicStd_Dynamic");
 
 		public override object GetApi() => new MenuAPI();
 
@@ -30,6 +33,7 @@ namespace MenuFramework
 			SetUpTwoButtonElement();
 			SetUpNonDisplaySliderElement();
 			SetUpLabelElement();
+			SetUpTextInputElement();
 
 			gameObject.AddComponent<TitleButtonManager>();
 			gameObject.AddComponent<PopupMenuManager>();
@@ -135,6 +139,12 @@ namespace MenuFramework
 			LabelElementPrefab = Instantiate(Resources.FindObjectsOfTypeAll<RectTransform>().First(x => x.name == "UIElement-FreezeTimeWhileReadingLabel").gameObject);
 			DontDestroyOnLoad(LabelElementPrefab);
 			LabelElementPrefab.SetActive(false);
+		}
+
+		private void SetUpTextInputElement()
+		{
+			TextInputElementPrefab = MenuBundle.LoadAsset<GameObject>("assets/uielement-textinput.prefab");
+			TextInputElementPrefab.SetActive(false);
 		}
 	}
 }

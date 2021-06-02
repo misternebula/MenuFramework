@@ -72,6 +72,7 @@ namespace TestMod
 			MenuApi.OptionsMenu_MakeSpacer(70f, menu);
 			MenuApi.OptionsMenu_MakeNonDisplaySliderElement("Slider 1", "Test tooltip for slider element.", 0.5f, menu);
 			MenuApi.OptionsMenu_MakeNonDisplaySliderElement("Slider 2", "Test tooltip for slider element.", 0.5f, menu);
+			MenuApi.OptionsMenu_MakeTextInput("Placeholder Text", "Saved Value", menu);
 		}
 
 		private void Init()

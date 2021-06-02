@@ -20,6 +20,7 @@ namespace TestMod
 		GameObject OptionsMenu_MakeNonDisplaySliderElement(string label, string tooltipText, float savedValue, Menu menuTab);
 		void OptionsMenu_MakeSpacer(float minHeight, Menu menuTab);
 		void OptionsMenu_MakeLabel(string label, Menu menuTab);
+		void OptionsMenu_MakeTextInput(string placeholderText, string savedValue, Menu menuTab);
 		// Misc
 		PopupMenu MakeTwoChoicePopup(string message, string confirmText, string cancelText);
 		PopupInputMenu MakeInputFieldPopup(string message, string placeholderMessage, string confirmText, string cancelText);

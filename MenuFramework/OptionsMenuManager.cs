@@ -483,6 +483,62 @@ namespace MenuFramework
 			Main.Helper.Console.WriteLine($"{newElement.GetComponent<RectTransform>().sizeDelta}");
 		}
 
+		public GameObject CreateTextInput(string placeholderText, string savedValue, Menu menuTab)
+		{
+			var newElement = Instantiate(Main.TextInputElementPrefab);
+			newElement.name = $"UIElement-TextInput";
+			newElement.SetActive(false);
+			newElement.layer = 5;
+
+			var menuType = GetMenuType(menuTab);
+			if (menuType == CurrentMenuType.None)
+			{
+				Main.Helper.Console.WriteLine("INCORRECT MENU FORMAT");
+			}
+
+			var placeholderTextComponent = newElement.transform.Find("HorizontalLayoutGroup/ControlBlock/InputField/Placeholder").GetComponent<Text>();
+			placeholderTextComponent.text = placeholderText;
+
+			var textTextComponent = newElement.transform.Find("HorizontalLayoutGroup/ControlBlock/InputField/Text").GetComponent<Text>();
+			textTextComponent.text = savedValue;
+
+			var text = newElement.transform.Find("HorizontalLayoutGroup/LabelBlock/HorizontalLayoutGroup/Label");
+			var leftArrow = newElement.transform.Find("HorizontalLayoutGroup/LabelBlock/HorizontalLayoutGroup/LeftArrow").GetComponent<Image>();
+			var rightArrow = newElement.transform.Find("HorizontalLayoutGroup/LabelBlock/HorizontalLayoutGroup/RightArrow").GetComponent<Image>();
+
+			var uiStyleApplier = newElement.AddComponent<UIStyleApplier>();
+			uiStyleApplier.SetValue("_textItems", new Text[1] { text.GetComponent<Text>() });
+			uiStyleApplier.SetValue("_foregroundGraphics",
+				new Graphic[3] {
+					text.GetComponent<Text>(),
+					leftArrow,
+					rightArrow
+				});
+			uiStyleApplier.SetValue("_onOffGraphicList",
+				new UIStyleApplier.OnOffGraphic[2]
+				{
+					new UIStyleApplier.OnOffGraphic()
+					{
+						graphic = leftArrow,
+						visibleHighlighted = true
+					},
+					new UIStyleApplier.OnOffGraphic()
+					{
+						graphic = rightArrow,
+						visibleHighlighted = true
+					}
+				});
+
+
+			ChildUIElement(newElement, menuTab, menuType);
+
+			AddToNavigation(menuTab, newElement.GetComponent<Button>());
+			UpdateNaviagation(menuTab);
+
+			newElement.SetActive(true);
+			return newElement;
+		}
+
 		private void AddToNavigation(Menu menuTab, Selectable selectable)
 		{
 			if (!MenuSelectables.ContainsKey(menuTab))
