@@ -65,8 +65,13 @@ namespace TestMod
 			MenuApi.TitleScreen_MakeSceneLoadButton("LOAD EYE (CONFIRM)", SubmitActionLoadScene.LoadableScenes.EYE, twoChoicePopup.GetComponent<PopupMenu>());
 			MenuApi.TitleScreen_MakeSceneLoadButton("LOAD EYE", SubmitActionLoadScene.LoadableScenes.EYE);
 
-			var menu = MenuApi.OptionsMenu_MakeNonScrollingOptionsTab("TEST");
-			MenuApi.OptionsMenu_MakeTwoButtonToggle("TEST", "TRUE", "FALSE", "TOOPTIP", menu);
+			var menu = MenuApi.OptionsMenu_MakeNonScrollingOptionsTab("MENU TEST");
+			MenuApi.OptionsMenu_MakeLabel("A Label", menu);
+			MenuApi.OptionsMenu_MakeTwoButtonToggle("Two Button 1", "Enabled", "Disabled", "Test tooltip for two button element.", false, menu);
+			MenuApi.OptionsMenu_MakeTwoButtonToggle("Two Button 2", "Enabled", "Disabled", "Test tooltip for two button element.", false, menu);
+			MenuApi.OptionsMenu_MakeSpacer(70f, menu);
+			MenuApi.OptionsMenu_MakeNonDisplaySliderElement("Slider 1", "Test tooltip for slider element.", 0.5f, menu);
+			MenuApi.OptionsMenu_MakeNonDisplaySliderElement("Slider 2", "Test tooltip for slider element.", 0.5f, menu);
 		}
 
 		private void Init()

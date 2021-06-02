@@ -16,7 +16,10 @@ namespace TestMod
 		Menu PauseMenu_MakePauseListMenu(string title);
 		// Options
 		Menu OptionsMenu_MakeNonScrollingOptionsTab(string name);
-		GameObject OptionsMenu_MakeTwoButtonToggle(string label, string trueText, string falseText, string tooltipText, Menu menuTab);
+		GameObject OptionsMenu_MakeTwoButtonToggle(string label, string trueText, string falseText, string tooltipText, bool savedValue, Menu menuTab);
+		GameObject OptionsMenu_MakeNonDisplaySliderElement(string label, string tooltipText, float savedValue, Menu menuTab);
+		void OptionsMenu_MakeSpacer(float minHeight, Menu menuTab);
+		void OptionsMenu_MakeLabel(string label, Menu menuTab);
 		// Misc
 		PopupMenu MakeTwoChoicePopup(string message, string confirmText, string cancelText);
 		PopupInputMenu MakeInputFieldPopup(string message, string placeholderMessage, string confirmText, string cancelText);

@@ -32,8 +32,17 @@ namespace MenuFramework
 		public Menu OptionsMenu_MakeNonScrollingOptionsTab(string name)
 			=> OptionsMenuManager.Instance.MakeNonScrollingOptionsTab(name);
 
-		public GameObject OptionsMenu_MakeTwoButtonToggle(string label, string trueText, string falseText, string tooltipText, Menu menuTab)
-			=> OptionsMenuManager.Instance.CreateTwoButtonToggle(label, trueText, falseText, tooltipText, menuTab);
+		public GameObject OptionsMenu_MakeTwoButtonToggle(string label, string trueText, string falseText, string tooltipText, bool savedValue, Menu menuTab)
+			=> OptionsMenuManager.Instance.CreateTwoButtonToggle(label, trueText, falseText, tooltipText, savedValue, menuTab);
+
+		public GameObject OptionsMenu_MakeNonDisplaySliderElement(string label, string tooltipText, float savedValue, Menu menuTab)
+			=> OptionsMenuManager.Instance.CreateNonDisplaySliderElement(label, tooltipText, savedValue, menuTab);
+
+		public void OptionsMenu_MakeSpacer(float minHeight, Menu menuTab)
+			=> OptionsMenuManager.Instance.CreateSpacer(minHeight, menuTab);
+
+		public void OptionsMenu_MakeLabel(string label, Menu menuTab)
+			=> OptionsMenuManager.Instance.CreateLabel(label, menuTab);
 
 		// MISC
 		public PopupMenu MakeTwoChoicePopup(string message, string confirmText, string cancelText)

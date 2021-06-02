@@ -1,6 +1,7 @@
 ﻿using OWML.Common;
 using OWML.ModHelper;
 using OWML.Utils;
+using System.Linq;
 using UnityEngine;
 using UnityEngine.UI;
 
@@ -12,6 +13,9 @@ namespace MenuFramework
 		public static AssetBundle MenuBundle { get; private set; }
 		public static GameObject ButtonPrefab { get; private set; }
 		public static GameObject PauseListPrefab { get; private set; }
+		public static GameObject TwoButtonElementPrefab { get; private set; }
+		public static GameObject NonDisplaySliderElementPrefab { get; private set; }
+		public static GameObject LabelElementPrefab { get; private set; }
 		public static Font AdobeSerifGothicStdExtraBold => (Font)Resources.Load("fonts/english - latin/Adobe - SerifGothicStd-ExtraBold");
 
 		public override object GetApi() => new MenuAPI();
@@ -23,6 +27,9 @@ namespace MenuFramework
 			MenuBundle = Helper.Assets.LoadBundle("assets/menuframework");
 			SetUpButtonPrefab();
 			SetUpPauseList();
+			SetUpTwoButtonElement();
+			SetUpNonDisplaySliderElement();
+			SetUpLabelElement();
 
 			gameObject.AddComponent<TitleButtonManager>();
 			gameObject.AddComponent<PopupMenuManager>();
@@ -107,6 +114,27 @@ namespace MenuFramework
 			styleApplier.spacing = 12f;
 			styleApplier.font = AdobeSerifGothicStdExtraBold;
 			styleApplier.fixedWidth = 0f;
+		}
+
+		private void SetUpTwoButtonElement()
+		{
+			TwoButtonElementPrefab = Instantiate(Resources.FindObjectsOfTypeAll<TwoButtonToggleElement>().First(x => x.name == "UIElement-InvertPlayer").gameObject);
+			DontDestroyOnLoad(TwoButtonElementPrefab);
+			TwoButtonElementPrefab.SetActive(false);
+		}
+
+		private void SetUpNonDisplaySliderElement()
+		{
+			NonDisplaySliderElementPrefab = Instantiate(Resources.FindObjectsOfTypeAll<SliderElement>().First(x => x.name == "UIElement-FlightSensitivity").gameObject);
+			DontDestroyOnLoad(NonDisplaySliderElementPrefab);
+			NonDisplaySliderElementPrefab.SetActive(false);
+		}
+
+		private void SetUpLabelElement()
+		{
+			LabelElementPrefab = Instantiate(Resources.FindObjectsOfTypeAll<RectTransform>().First(x => x.name == "UIElement-FreezeTimeWhileReadingLabel").gameObject);
+			DontDestroyOnLoad(LabelElementPrefab);
+			LabelElementPrefab.SetActive(false);
 		}
 	}
 }

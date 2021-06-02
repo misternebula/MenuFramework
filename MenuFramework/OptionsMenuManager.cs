@@ -1,4 +1,7 @@
-﻿using OWML.Utils;
+﻿using OWML.Common;
+using OWML.Common.Menus;
+using OWML.ModHelper.Menus;
+using OWML.Utils;
 using System;
 using System.Collections.Generic;
 using System.Linq;
@@ -10,7 +13,6 @@ namespace MenuFramework
 {
 	public static class Patches
 	{
-		/*
 		public static bool TabButton_InitializeNavigation(
 			TabButton __instance,
 			ref Button ____mySelectable,
@@ -83,6 +85,7 @@ namespace MenuFramework
 			return false;
 		}
 
+		/*
 		public static bool TabbedMenu_GetSelectOnActivate(TabbedMenu __instance, ref Selectable __result, ref Selectable ____selectOnActivate, TabButton ____lastSelectedTabButton)
 		{
 			Main.Helper.Console.WriteLine($"{__instance.name} - override getselectonactivate", OWML.Common.MessageType.Info);
@@ -184,15 +187,95 @@ namespace MenuFramework
 			}
 			return true;
 		}
+
+		public static bool ModMenu_Initialize(ModMenu __instance, Menu menu, LayoutGroup layoutGroup, ref LayoutGroup ___Layout, ref List<IModInputBase> ____inputs)
+		{
+			Main.Helper.Console.WriteLine($"init");
+			if (__instance.Menu == menu)
+			{
+				Main.Helper.Console.WriteLine($"__instance.Menu already set to menu", MessageType.Warning);
+			}
+			if (menu == null)
+			{
+				Main.Helper.Console.WriteLine("NULL MENU!");
+				return false;
+			}
+			else
+			{
+				Main.Helper.Console.WriteLine($"{menu.name}");
+				Main.Helper.Console.WriteLine("menu ok");
+			}
+			__instance.SetPrivatePropertyValue("Menu", menu);
+			if (__instance.Menu != menu)
+			{
+				Main.Helper.Console.WriteLine($"__instance.Menu was not set!!", MessageType.Error);
+				__instance.SetPrivatePropertyValue("Menu", menu);
+			}
+			else
+			{
+				Main.Helper.Console.WriteLine($"__instance.Menu was set", MessageType.Success);
+			}
+			if (layoutGroup == null)
+			{
+				Main.Helper.Console.WriteLine("NULL LAYOUT!");
+				return false;
+			}
+			else
+			{
+				Main.Helper.Console.WriteLine("layout ok");
+			}
+			___Layout = layoutGroup;
+
+			Main.Helper.Console.WriteLine("get components in children");
+			if (__instance.Menu == null)
+			{
+				Main.Helper.Console.WriteLine("menu is null after setting to not null??");
+				return false;
+			}
+			var componentsInChildren = __instance.Menu.GetComponentsInChildren<ButtonWithHotkeyImageElement>(true);
+			Main.Helper.Console.WriteLine("select");
+			var promptButtons = componentsInChildren.Select(x => x.GetComponent<Button>()).ToList();
+
+			Main.Helper.Console.WriteLine("set basebuttons");
+			__instance.SetValue("BaseButtons", new List<IModButtonBase>()
+				.Concat(promptButtons.Select(x => new ModPromptButton(x, __instance, __instance.GetValue<IModConsole>("Console"))).Cast<IModButtonBase>())
+				.Concat(__instance.Menu.GetComponentsInChildren<Button>(true).Except(promptButtons).Select(x => new ModTitleButton(x, __instance)).Cast<IModButtonBase>())
+				.ToList());
+			Main.Helper.Console.WriteLine("get inputs");
+			____inputs = new List<IModInputBase>()
+				.Concat(__instance.Menu.GetComponentsInChildren<TwoButtonToggleElement>(true).Select(x => new ModToggleInput(x, __instance)).Cast<IModInputBase>())
+				.Concat(__instance.Menu.GetComponentsInChildren<SliderElement>(true).Select(x => new ModSliderInput(x, __instance)).Cast<IModInputBase>())
+				.Concat(__instance.Menu.GetComponentsInChildren<OptionsSelectorElement>(true).Select(x => new ModSelectorInput(x, __instance)).Cast<IModInputBase>())
+				.ToList();
+			__instance.SetValue("Seperators", new List<IModSeparator>());
+			Main.Helper.Console.WriteLine($"- FINISH init {menu.name}");
+			return false;
+		}
+
+		public static bool Menu_InitializeMenu(Menu __instance, ref GameObject ____selectableItemsRoot, ref GameObject ____menuActivationRoot)
+		{
+			Main.Helper.Console.WriteLine($"INITIALIZE {__instance.name}");
+			if (____selectableItemsRoot == null)
+			{
+				Main.Helper.Console.WriteLine(" - Selectable Items Root null!");
+			}
+			if (____menuActivationRoot == null)
+			{
+				Main.Helper.Console.WriteLine(" - Menu Activation Root null!");
+			}
+			return true;
+		}
 	}
 	class OptionsMenuManager : MonoBehaviour
 	{
 		public static OptionsMenuManager Instance { get; private set; }
 
+		private static Dictionary<Menu, List<Selectable>> MenuSelectables = new Dictionary<Menu, List<Selectable>>();
+
 		private void Awake()
 		{
 			Instance = this;
-			//Main.Helper.HarmonyHelper.AddPrefix<TabButton>("InitializeNavigation", typeof(Patches), nameof(Patches.TabButton_InitializeNavigation));
+			Main.Helper.HarmonyHelper.AddPrefix<TabButton>("InitializeNavigation", typeof(Patches), nameof(Patches.TabButton_InitializeNavigation));
 			//Main.Helper.HarmonyHelper.AddPrefix<TabbedMenu>("GetSelectOnActivate", typeof(Patches), nameof(Patches.TabbedMenu_GetSelectOnActivate));
 			//Main.Helper.HarmonyHelper.AddPrefix<Menu>("GetSelectOnActivate", typeof(Patches), nameof(Patches.Menu_GetSelectOnActivate));
 			//Main.Helper.HarmonyHelper.AddPrefix<Menu>("SetSelectOnActivate", typeof(Patches), nameof(Patches.Menu_SetSelectOnActivate));
@@ -202,6 +285,13 @@ namespace MenuFramework
 			Main.Helper.HarmonyHelper.AddPrefix<TabbedMenu>("SelectTabButton", typeof(Patches), nameof(Patches.TabbedMenu_SelectTabButton));
 			Main.Helper.HarmonyHelper.AddPrefix<MenuStackManager>("Pop", typeof(Patches), nameof(Patches.MenuStackManager_Pop));
 			Main.Helper.HarmonyHelper.AddPrefix<MenuStackManager>("Push", typeof(Patches), nameof(Patches.MenuStackManager_Push));
+			Main.Helper.HarmonyHelper.AddPrefix<Menu>("InitializeMenu", typeof(Patches), nameof(Patches.Menu_InitializeMenu));
+
+			Main.Helper.HarmonyHelper.EmptyMethod<ModMenus>("OnEvent");
+
+			var args = new[] { typeof(Menu), typeof(LayoutGroup) };
+			var method = typeof(ModMenu).GetMethod("Initialize", args);
+			Main.Helper.HarmonyHelper.AddPrefix(method, typeof(Patches), nameof(Patches.ModMenu_Initialize));
 		}
 
 
@@ -214,8 +304,8 @@ namespace MenuFramework
 			
 			var text = newButton.transform.Find("Text").GetComponent<Text>();
 			text.text = name;
-
 			Destroy(text.GetComponent<LocalizedText>());
+
 			var newMenu = new GameObject($"{name}Menu");
 			newMenu.SetActive(false);
 			newMenu.layer = 5;
@@ -230,12 +320,15 @@ namespace MenuFramework
 			rectTransform.SetRight(100);
 			rectTransform.SetHeight(665);
 			rectTransform.SetPosY(-50);
+			rectTransform.SetPosZ(0);
 			newMenu.transform.localScale = Vector3.one;
 
 			newMenu.AddComponent<CanvasRenderer>();
 
 			var menu = newMenu.AddComponent<Menu>();
 			menu.SetValue("_addToMenuStackManager", false);
+			menu.SetValue("_menuActivationRoot", newMenu);
+			menu.SetValue("_selectableItemsRoot", newMenu);
 			if (newButton.GetComponent<Button>() == null)
 			{
 				Main.Helper.Console.WriteLine("NO BUTTON!");
@@ -251,6 +344,11 @@ namespace MenuFramework
 			layoutRt.anchorMax = Vector2.one;
 			layoutRt.pivot = new Vector2(0.5f, 0.5f);
 			layoutRt.SetLeft(50);
+			layoutRt.SetRight(0);
+			layoutRt.SetTop(0);
+			layoutRt.SetBottom(0);
+			layoutRt.SetPosZ(0);
+			layoutRt.localScale = Vector3.one;
 
 			layoutGroup.AddComponent<CanvasRenderer>();
 
@@ -267,14 +365,13 @@ namespace MenuFramework
 			currentList.Add(newButton.GetComponent<TabButton>());
 			tabbedOptionMenu.SetValue("_menuTabs", currentList.ToArray());
 
-			newMenu.SetActive(true);
-
 			return menu;
 		}
 
-		public GameObject CreateTwoButtonToggle(string label, string trueText, string falseText, string tooltipText, Menu menuTab)
+		public GameObject CreateTwoButtonToggle(string label, string trueText, string falseText, string tooltipText, bool savedValue, Menu menuTab)
 		{
-			var newElement = new GameObject($"UIElement-{label}");
+			var newElement = Instantiate(Main.TwoButtonElementPrefab);
+			newElement.name = $"UIElement-{label}";
 			newElement.SetActive(false);
 			newElement.layer = 5;
 
@@ -284,25 +381,163 @@ namespace MenuFramework
 				Main.Helper.Console.WriteLine("INCORRECT MENU FORMAT");
 				return null;
 			}
+
 			ChildUIElement(newElement, menuTab, menuType);
-			newElement.AddComponent<RectTransform>();
-			newElement.AddComponent<CanvasRenderer>();
-			var twoButton = newElement.AddComponent<TwoButtonToggleElement>();
+
+			var labelText = newElement.transform.Find("HorizontalLayoutGroup/LabelBlock/HorizontalLayoutGroup/Label").GetComponent<Text>();
+			Destroy(labelText.GetComponent<LocalizedText>());
+			labelText.text = label;
+
+			var trueTextElement = newElement.transform.Find("HorizontalLayoutGroup/ControlBlock/Panel-LeftButton/Button-ON/Text").GetComponent<Text>();
+			Destroy(trueTextElement.GetComponent<LocalizedText>());
+			trueTextElement.text = trueText;
+			var falseTextElement = newElement.transform.Find("HorizontalLayoutGroup/ControlBlock/Panel-RightButton/Button-OFF/Text").GetComponent<Text>();
+			Destroy(falseTextElement.GetComponent<LocalizedText>());
+			falseTextElement.text = falseText;
+
+			var twoButton = newElement.GetComponent<TwoButtonToggleElement>();
 			twoButton.SetValue("_tooltipTextType", UITextType.None);
 			twoButton.SetValue("_testText", tooltipText); // Thanks Mobius! :P
 
-			var button = newElement.GetAddComponent<Button>();
+			AddToNavigation(menuTab, newElement.GetComponent<Button>());
+			UpdateNaviagation(menuTab);
 
-			var layout = newElement.AddComponent<LayoutElement>();
-			layout.minHeight = 70;
-			layout.flexibleWidth = 1;
-
-			if (menuTab.GetSelectOnActivate() == null)
-			{
-				menuTab.SetSelectOnActivate(button);
-			}
+			twoButton.Initialize(savedValue);
 			newElement.SetActive(true);
 			return newElement;
+		}
+
+		public GameObject CreateNonDisplaySliderElement(string label, string tooltipText, float savedValue, Menu menuTab)
+		{
+			var newElement = Instantiate(Main.NonDisplaySliderElementPrefab);
+			newElement.name = $"UIElement-{label}";
+			newElement.SetActive(false);
+			newElement.layer = 5;
+
+			var menuType = GetMenuType(menuTab);
+			if (menuType == CurrentMenuType.None)
+			{
+				Main.Helper.Console.WriteLine("INCORRECT MENU FORMAT");
+				return null;
+			}
+
+			ChildUIElement(newElement, menuTab, menuType);
+
+			var labelText = newElement.transform.Find("HorizontalLayoutGroup/Panel-Label/HorizontalLayoutGroup/Label").GetComponent<Text>();
+			Destroy(labelText.GetComponent<LocalizedText>());
+			labelText.text = label;
+
+			var sliderElement = newElement.GetComponent<SliderElement>();
+			sliderElement.SetValue("_tooltipTextType", UITextType.None);
+			sliderElement.SetValue("_testText", tooltipText); // Thanks Mobius! :P
+
+			AddToNavigation(menuTab, newElement.GetComponent<Selectable>());
+			UpdateNaviagation(menuTab);
+
+			sliderElement.Initialize((int)savedValue);
+			newElement.SetActive(true);
+			return newElement;
+		}
+
+		public void CreateSpacer(float minHeight, Menu menuTab)
+		{
+			var newElement = new GameObject("Spacer");
+
+			var menuType = GetMenuType(menuTab);
+			if (menuType == CurrentMenuType.None)
+			{
+				Main.Helper.Console.WriteLine("INCORRECT MENU FORMAT");
+				return;
+			}
+
+			ChildUIElement(newElement, menuTab, menuType);
+
+			var layout = newElement.AddComponent<LayoutElement>();
+			layout.minHeight = minHeight;
+
+			newElement.SetActive(true);
+		}
+
+		public void CreateLabel(string label, Menu menuTab)
+		{
+			var newElement = Instantiate(Main.LabelElementPrefab);
+			newElement.name = $"UIElement-{label}Label";
+			newElement.SetActive(false);
+			newElement.layer = 5;
+
+			var menuType = GetMenuType(menuTab);
+			if (menuType == CurrentMenuType.None)
+			{
+				Main.Helper.Console.WriteLine("INCORRECT MENU FORMAT");
+				return;
+			}
+
+			ChildUIElement(newElement, menuTab, menuType);
+
+			var labelText = newElement.transform.Find("Label").GetComponent<Text>();
+			Destroy(labelText.GetComponent<LocalizedText>());
+			labelText.text = label;
+
+			newElement.SetActive(true);
+
+			Main.Helper.Console.WriteLine($"{newElement.GetComponent<RectTransform>().sizeDelta}");
+		}
+
+		private void AddToNavigation(Menu menuTab, Selectable selectable)
+		{
+			if (!MenuSelectables.ContainsKey(menuTab))
+			{
+				Main.Helper.Console.WriteLine($"Create entry for {menuTab.name}");
+				MenuSelectables.Add(menuTab, new List<Selectable>());
+			}
+			Main.Helper.Console.WriteLine($"Add {selectable.name} to entry for {menuTab.name}");
+			MenuSelectables[menuTab].Add(selectable);
+		}
+
+		private void UpdateNaviagation(Menu menuTab)
+		{
+			var selectableCount = MenuSelectables[menuTab].Count;
+			var lastIndex = selectableCount - 1;
+			if (selectableCount == 0)
+			{
+				Main.Helper.Console.WriteLine("Error - Cannot update navigation of menu that has 0 elements!", MessageType.Error);
+				return;
+			}
+			menuTab.SetSelectOnActivate(MenuSelectables[menuTab][0]);
+
+			if (selectableCount == 1)
+			{
+				return;
+			}
+
+			for (var i = 0; i < selectableCount; i++)
+			{
+				var element = MenuSelectables[menuTab][i];
+				var selectable = element.GetComponent<Selectable>();
+				Selectable onUp;
+				Selectable onDown;
+				if (i == 0)
+				{
+					onUp = MenuSelectables[menuTab][lastIndex];
+					onDown = MenuSelectables[menuTab][i + 1];
+				}
+				else if (i == lastIndex)
+				{
+					onUp = MenuSelectables[menuTab][i - 1];
+					onDown = MenuSelectables[menuTab][0];
+				}
+				else
+				{
+					onUp = MenuSelectables[menuTab][i - 1];
+					onDown = MenuSelectables[menuTab][i + 1];
+				}
+				selectable.navigation = new Navigation()
+				{
+					mode = Navigation.Mode.Explicit,
+					selectOnUp = onUp,
+					selectOnDown = onDown
+				};
+			}
 		}
 
 		private void ChildUIElement(GameObject element, Menu menuTab, CurrentMenuType type)
@@ -311,10 +546,12 @@ namespace MenuFramework
 			{
 				Main.Helper.Console.WriteLine($"Childing {element.name} to {menuTab.name}/{menuTab.transform.GetChild(0).name}");
 				element.transform.parent = menuTab.transform.GetChild(0);
+				element.transform.localScale = Vector3.one;
 				return;
 			}
 			Main.Helper.Console.WriteLine($"Childing {element.name} to {menuTab.name}/{menuTab.transform.GetChild(0).name}/{menuTab.transform.GetChild(0).GetChild(0).name}/{menuTab.transform.GetChild(0).GetChild(0).GetChild(0).name}");
 			element.transform.parent = menuTab.transform.GetChild(0).GetChild(0).GetChild(0);
+			element.transform.localScale = Vector3.one;
 		}
 
 		private CurrentMenuType GetMenuType(Menu menuTab)
