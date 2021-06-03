@@ -145,6 +145,33 @@ namespace MenuFramework
 		{
 			TextInputElementPrefab = MenuBundle.LoadAsset<GameObject>("assets/uielement-textinput.prefab");
 			TextInputElementPrefab.SetActive(false);
+
+			var text = TextInputElementPrefab.transform.Find("HorizontalLayoutGroup/LabelBlock/HorizontalLayoutGroup/Label");
+			var leftArrow = TextInputElementPrefab.transform.Find("HorizontalLayoutGroup/LabelBlock/HorizontalLayoutGroup/LeftArrow").GetComponent<Image>();
+			var rightArrow = TextInputElementPrefab.transform.Find("HorizontalLayoutGroup/LabelBlock/HorizontalLayoutGroup/RightArrow").GetComponent<Image>();
+
+			var uiStyleApplier = TextInputElementPrefab.AddComponent<UIStyleApplier>();
+			uiStyleApplier.SetValue("_textItems", new Text[1] { text.GetComponent<Text>() });
+			uiStyleApplier.SetValue("_foregroundGraphics",
+				new Graphic[3] {
+					text.GetComponent<Text>(),
+					leftArrow,
+					rightArrow
+				});
+			uiStyleApplier.SetValue("_onOffGraphicList",
+				new UIStyleApplier.OnOffGraphic[2]
+				{
+					new UIStyleApplier.OnOffGraphic()
+					{
+						graphic = leftArrow,
+						visibleHighlighted = true
+					},
+					new UIStyleApplier.OnOffGraphic()
+					{
+						graphic = rightArrow,
+						visibleHighlighted = true
+					}
+				});
 		}
 	}
 }

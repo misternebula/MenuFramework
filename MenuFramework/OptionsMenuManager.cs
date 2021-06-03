@@ -502,34 +502,6 @@ namespace MenuFramework
 			var textTextComponent = newElement.transform.Find("HorizontalLayoutGroup/ControlBlock/InputField/Text").GetComponent<Text>();
 			textTextComponent.text = savedValue;
 
-			var text = newElement.transform.Find("HorizontalLayoutGroup/LabelBlock/HorizontalLayoutGroup/Label");
-			var leftArrow = newElement.transform.Find("HorizontalLayoutGroup/LabelBlock/HorizontalLayoutGroup/LeftArrow").GetComponent<Image>();
-			var rightArrow = newElement.transform.Find("HorizontalLayoutGroup/LabelBlock/HorizontalLayoutGroup/RightArrow").GetComponent<Image>();
-
-			var uiStyleApplier = newElement.AddComponent<UIStyleApplier>();
-			uiStyleApplier.SetValue("_textItems", new Text[1] { text.GetComponent<Text>() });
-			uiStyleApplier.SetValue("_foregroundGraphics",
-				new Graphic[3] {
-					text.GetComponent<Text>(),
-					leftArrow,
-					rightArrow
-				});
-			uiStyleApplier.SetValue("_onOffGraphicList",
-				new UIStyleApplier.OnOffGraphic[2]
-				{
-					new UIStyleApplier.OnOffGraphic()
-					{
-						graphic = leftArrow,
-						visibleHighlighted = true
-					},
-					new UIStyleApplier.OnOffGraphic()
-					{
-						graphic = rightArrow,
-						visibleHighlighted = true
-					}
-				});
-
-
 			ChildUIElement(newElement, menuTab, menuType);
 
 			AddToNavigation(menuTab, newElement.GetComponent<Button>());
