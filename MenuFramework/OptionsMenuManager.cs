@@ -483,7 +483,7 @@ namespace MenuFramework
 			Main.Helper.Console.WriteLine($"{newElement.GetComponent<RectTransform>().sizeDelta}");
 		}
 
-		public GameObject CreateTextInput(string placeholderText, string savedValue, Menu menuTab)
+		public GameObject CreateTextInput(string label, string placeholderText, string savedValue, Menu menuTab)
 		{
 			var newElement = Instantiate(Main.TextInputElementPrefab);
 			newElement.name = $"UIElement-TextInput";
@@ -496,11 +496,15 @@ namespace MenuFramework
 				Main.Helper.Console.WriteLine("INCORRECT MENU FORMAT");
 			}
 
-			var placeholderTextComponent = newElement.transform.Find("HorizontalLayoutGroup/ControlBlock/InputField/Placeholder").GetComponent<Text>();
-			placeholderTextComponent.text = placeholderText;
+			var labelText = newElement.transform.Find("HorizontalLayoutGroup/LabelBlock/HorizontalLayoutGroup/Label").GetComponent<Text>();
+			//Destroy(labelText.GetComponent<LocalizedText>());
+			labelText.text = label;
 
-			var textTextComponent = newElement.transform.Find("HorizontalLayoutGroup/ControlBlock/InputField/Text").GetComponent<Text>();
-			textTextComponent.text = savedValue;
+			var inputField = newElement.transform.Find("HorizontalLayoutGroup/ControlBlock/InputField").GetComponent<InputField>();
+			var placeholder = inputField.placeholder;
+			var placeholderTextComp = placeholder.GetComponent<Text>();
+			placeholderTextComp.text = placeholderText;
+			inputField.text = savedValue;
 
 			ChildUIElement(newElement, menuTab, menuType);
 
