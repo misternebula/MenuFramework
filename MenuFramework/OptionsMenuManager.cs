@@ -483,7 +483,7 @@ namespace MenuFramework
 			Main.Helper.Console.WriteLine($"{newElement.GetComponent<RectTransform>().sizeDelta}");
 		}
 
-		public GameObject CreateTextInput(string label, string placeholderText, string savedValue, Menu menuTab)
+		public GameObject CreateTextInput(string label, string tooltipText, string placeholderText, string savedValue, Menu menuTab)
 		{
 			var newElement = Instantiate(Main.TextInputElementPrefab);
 			newElement.name = $"UIElement-TextInput";

@@ -44,8 +44,8 @@ namespace MenuFramework
 		public void OptionsMenu_MakeLabel(string label, Menu menuTab)
 			=> OptionsMenuManager.Instance.CreateLabel(label, menuTab);
 
-		public void OptionsMenu_MakeTextInput(string label, string placeholderText, string savedValue, Menu menuTab)
-			=> OptionsMenuManager.Instance.CreateTextInput(label, placeholderText, savedValue, menuTab);
+		public void OptionsMenu_MakeTextInput(string label, string tooltipText, string placeholderText, string savedValue, Menu menuTab)
+			=> OptionsMenuManager.Instance.CreateTextInput(label, tooltipText, placeholderText, savedValue, menuTab);
 
 		// MISC
 		public PopupMenu MakeTwoChoicePopup(string message, string confirmText, string cancelText)
