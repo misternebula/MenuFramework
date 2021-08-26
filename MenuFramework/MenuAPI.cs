@@ -54,6 +54,7 @@ namespace MenuFramework
 		public PopupInputMenu MakeInputFieldPopup(string message, string placeholderMessage, string confirmText, string cancelText)
 			=> PopupMenuManager.Instance.CreateInputFieldPopup(message, placeholderMessage, confirmText, cancelText);
 
-
+		public PopupMenu MakeInfoPopup(string message, string continueButtonText)
+			=> PopupMenuManager.Instance.CreateInfoPopup(message, continueButtonText);
 	}
 }

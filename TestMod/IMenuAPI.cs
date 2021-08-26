@@ -24,5 +24,6 @@ namespace TestMod
 		// Misc
 		PopupMenu MakeTwoChoicePopup(string message, string confirmText, string cancelText);
 		PopupInputMenu MakeInputFieldPopup(string message, string placeholderMessage, string confirmText, string cancelText);
+		PopupMenu MakeInfoPopup(string message, string continueButtonText);
 	}
 }
