@@ -18,6 +18,10 @@ namespace MenuFramework
 			newMenu.transform.parent = GameObject.Find("PauseMenuBlock").transform;
 			newMenu.transform.localScale = Vector3.one;
 			newMenu.transform.localPosition = Vector3.zero;
+			newMenu.GetComponent<RectTransform>().SetLeft(0);
+			newMenu.GetComponent<RectTransform>().SetRight(0);
+			newMenu.GetComponent<RectTransform>().SetTop(0);
+			newMenu.GetComponent<RectTransform>().SetBottom(0);
 
 			var text = newMenu.transform.GetChild(1).GetChild(0).GetChild(0).GetComponent<Text>();
 			text.text = title;
