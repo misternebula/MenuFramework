@@ -8,7 +8,7 @@ Font:
   m_Name: Adobe - SerifGothicStd
   serializedVersion: 5
   m_LineSpacing: 57.6
-  m_DefaultMaterial: {fileID: 2100000, guid: 0600c06bdcf939f4c9335b14d247bdd6, type: 2}
+  m_DefaultMaterial: {fileID: 2100000, guid: ee669c1cebc7a4f4296bb07173a8db6e, type: 2}
   m_FontSize: 48
   m_Texture: {fileID: 2800000, guid: e1bfcf4b0a3a0d645b4bb34e1c05fcfa, type: 3}
   m_AsciiStartOffset: 0
