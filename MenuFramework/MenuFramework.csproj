@@ -110,6 +110,7 @@
     <Compile Include="TitleButtonManager.cs" />
   </ItemGroup>
   <ItemGroup>
+    <None Include="default-config.json" />
     <None Include="manifest.json">
       <CopyToOutputDirectory>Always</CopyToOutputDirectory>
     </None>
@@ -117,10 +118,13 @@
   </ItemGroup>
   <Import Project="$(MSBuildToolsPath)\Microsoft.CSharp.targets" />
   <PropertyGroup>
-    <PostBuildEvent>xcopy /e /i /y "$(TargetDir)*" "$(OwmlDir)\Mods\$(ProjectName)"
+    <PostBuildEvent>md "$(OwmlDir)\Mods\$(ProjectName)"
+md "$(OwmlDir)\Mods\$(ProjectName)\assets"
+del "$(OwmlDir)\Mods\$(ProjectName)\config.json"
 
-xcopy /e /i /y "$(SolutionDir)AssetBundles\*" "$(OwmlDir)\Mods\$(ProjectName)\assets"
-
-echo "$(OwmlDir)"</PostBuildEvent>
+copy /y "$(ProjectDir)\default-config.json" "$(OwmlDir)\Mods\$(ProjectName)"
+copy /y "$(SolutionDir)\AssetBundles" "$(OwmlDir)\Mods\$(ProjectName)\assets"
+copy /y "$(ProjectDir)\manifest.json" "$(OwmlDir)\Mods\$(ProjectName)"
+copy /y "$(TargetPath)" "$(OwmlDir)\Mods\$(ProjectName)"</PostBuildEvent>
   </PropertyGroup>
 </Project>

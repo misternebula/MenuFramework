@@ -58,7 +58,6 @@ namespace TestMod
 		{
 			var twoChoicePopup = MenuApi.MakeTwoChoicePopup("This is a two-choice popup.", "Confirm option", "Cancel option");
 			var inputPopup = MenuApi.MakeInputFieldPopup("This is a input field popup.", "Placeholder message", "Confirm option", "Cancel option");
-			inputPopup.GetComponent<PopupInputMenu>().OnPopupConfirm += () => ModHelper.Console.WriteLine(inputPopup.GetComponent<PopupInputMenu>().GetInputText());
 
 			MenuApi.TitleScreen_MakeMenuOpenButton("TWO CHOICE", twoChoicePopup.GetComponent<Menu>());
 			MenuApi.TitleScreen_MakeMenuOpenButton("INPUT", inputPopup.GetComponent<Menu>());
