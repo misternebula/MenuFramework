@@ -121,6 +121,7 @@
 del "$(OwmlDir)\Mods\$(ProjectName)\config.json"
 
 copy /y "$(ProjectDir)\default-config.json" "$(OwmlDir)\Mods\$(ProjectName)"
+copy /y "$(ProjectDir)\savefile.json" "$(OwmlDir)\Mods\$(ProjectName)"
 copy /y "$(ProjectDir)\manifest.json" "$(OwmlDir)\Mods\$(ProjectName)"
 copy /y "$(TargetPath)" "$(OwmlDir)\Mods\$(ProjectName)"</PostBuildEvent>
   </PropertyGroup>
