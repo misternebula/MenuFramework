@@ -204,8 +204,6 @@ namespace MenuFramework
 			labelText.text = label;
 
 			newElement.SetActive(true);
-
-			Main.Helper.Console.WriteLine($"{newElement.GetComponent<RectTransform>().sizeDelta}");
 		}
 
 		public GameObject CreateTextInput(string label, string tooltipText, string placeholderText, string savedValue, Menu menuTab)
@@ -244,10 +242,8 @@ namespace MenuFramework
 		{
 			if (!MenuSelectables.ContainsKey(menuTab))
 			{
-				Main.Helper.Console.WriteLine($"Create entry for {menuTab.name}");
 				MenuSelectables.Add(menuTab, new List<Selectable>());
 			}
-			Main.Helper.Console.WriteLine($"Add {selectable.name} to entry for {menuTab.name}");
 			MenuSelectables[menuTab].Add(selectable);
 		}
 
@@ -301,12 +297,11 @@ namespace MenuFramework
 		{
 			if (type == CurrentMenuType.NonScrolling)
 			{
-				Main.Helper.Console.WriteLine($"Childing {element.name} to {menuTab.name}/{menuTab.transform.GetChild(0).name}");
 				element.transform.parent = menuTab.transform.GetChild(0);
 				element.transform.localScale = Vector3.one;
 				return;
 			}
-			Main.Helper.Console.WriteLine($"Childing {element.name} to {menuTab.name}/{menuTab.transform.GetChild(0).name}/{menuTab.transform.GetChild(0).GetChild(0).name}/{menuTab.transform.GetChild(0).GetChild(0).GetChild(0).name}");
+
 			element.transform.parent = menuTab.transform.GetChild(0).GetChild(0).GetChild(0);
 			element.transform.localScale = Vector3.one;
 		}
