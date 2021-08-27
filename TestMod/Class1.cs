@@ -25,8 +25,6 @@ namespace TestMod
 			_saveFile = ModHelper.Storage.Load<SaveFile>(SAVE_FILE);
 
 			LoadManager.OnCompleteSceneLoad += OnSceneLoaded;
-
-			MakeTitleMenus();
 		}
 
 		public override void Configure(IModConfig config) 
@@ -39,10 +37,6 @@ namespace TestMod
 				_isSolarSystemLoaded = true;
 				SpawnAtInitialPoint();
 			}
-			else if (scene == OWScene.TitleScreen)
-			{
-				MakeTitleMenus();
-			}
 		}
 
 		private void OnEvent(MonoBehaviour behaviour, Events ev)
@@ -54,34 +48,11 @@ namespace TestMod
 			}
 		}
 
-		private void MakeTitleMenus()
-		{
-			var twoChoicePopup = MenuApi.MakeTwoChoicePopup("This is a two-choice popup.", "Confirm option", "Cancel option");
-			var inputPopup = MenuApi.MakeInputFieldPopup("This is a input field popup.", "Placeholder message", "Confirm option", "Cancel option");
-
-			MenuApi.TitleScreen_MakeMenuOpenButton("TWO CHOICE", twoChoicePopup.GetComponent<Menu>());
-			MenuApi.TitleScreen_MakeMenuOpenButton("INPUT", inputPopup.GetComponent<Menu>());
-			MenuApi.TitleScreen_MakeSceneLoadButton("LOAD EYE (CONFIRM)", SubmitActionLoadScene.LoadableScenes.EYE, twoChoicePopup.GetComponent<PopupMenu>());
-			MenuApi.TitleScreen_MakeSceneLoadButton("LOAD EYE", SubmitActionLoadScene.LoadableScenes.EYE);
-
-			var menu = MenuApi.OptionsMenu_MakeNonScrollingOptionsTab("MENU TEST");
-			MenuApi.OptionsMenu_MakeLabel("A Label", menu);
-			MenuApi.OptionsMenu_MakeTwoButtonToggle("Two Button 1", "Enabled", "Disabled", "Test tooltip for two button element.", false, menu);
-			MenuApi.OptionsMenu_MakeTwoButtonToggle("Two Button 2", "Enabled", "Disabled", "Test tooltip for two button element.", false, menu);
-			MenuApi.OptionsMenu_MakeSpacer(70f, menu);
-			MenuApi.OptionsMenu_MakeNonDisplaySliderElement("Slider 1", "Test tooltip for slider element.", 0.5f, menu);
-			MenuApi.OptionsMenu_MakeNonDisplaySliderElement("Slider 2", "Test tooltip for slider element.", 0.5f, menu);
-			MenuApi.OptionsMenu_MakeTextInput("Label", "Test tooltip for text input element.", "Placeholder Text", "Saved Value", menu);
-		}
-
 		private void Init()
 		{
 			_fluidDetector = Locator.GetPlayerCamera().GetComponentInChildren<FluidDetector>();
 
 			var pauseButton = MenuApi.PauseMenu_MakeSimpleButton("TELEPORT TO...");
-
-			var twoChoicePopup = MenuApi.MakeTwoChoicePopup("This is a two-choice popup.", "Confirm option", "Cancel option");
-			MenuApi.PauseMenu_MakeMenuOpenButton("TWO CHOICE", twoChoicePopup.GetComponent<Menu>());
 
 			var shipSpawnMenu = MenuApi.PauseMenu_MakePauseListMenu("Ship Spawn Points");
 			var playerSpawnMenu = MenuApi.PauseMenu_MakePauseListMenu("Player Spawn Points");
