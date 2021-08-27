@@ -1,9 +1,9 @@
 ManifestFileVersion: 0
-CRC: 1614595399
+CRC: 134886135
 Hashes:
   AssetFileHash:
     serializedVersion: 2
-    Hash: 37a9d7360add8a63c2c9376a1baa3aa5
+    Hash: 8583b7e323dc52a9345d3bfd7037a644
   TypeTreeHash:
     serializedVersion: 2
     Hash: 3c5fe584613608083772835bdf8735b0
@@ -61,6 +61,7 @@ ClassTypes:
   Script: {instanceID: 0}
 Assets:
 - Assets/CustomPauseMenuItems.prefab
+- Assets/UIElement-TwoButton.prefab
 - Assets/UIElement-TextInput.prefab
 - Assets/Button-CustomButton.prefab
 Dependencies: []
