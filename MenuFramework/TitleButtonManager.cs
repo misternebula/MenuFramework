@@ -44,7 +44,7 @@ namespace MenuFramework
 			var menuRootObject = CreateBase(name);
 
 			var submitActionMenu = menuRootObject.AddComponent<SubmitActionMenu>();
-			submitActionMenu.SetValue("_menuToOpen", menuToOpen);
+			submitActionMenu._menuToOpen = menuToOpen;
 
 			menuRootObject.SetActive(true);
 
@@ -63,8 +63,8 @@ namespace MenuFramework
 			var submitActionLoadScene = menuRootObject.AddComponent<CustomSubmitActionLoadScene>();
 			submitActionLoadScene.SetSceneToLoad((CustomSubmitActionLoadScene.LoadableScenes)sceneToLoad);
 			submitActionLoadScene.EnableConfirm(confirmPopup != null);
-			submitActionLoadScene.SetValue("_confirmPopup", confirmPopup);
-			submitActionLoadScene.SetValue("_loadingText", menuRootObject.GetComponentInChildren<Text>());
+			submitActionLoadScene._confirmPopup = confirmPopup;
+			submitActionLoadScene._loadingText = menuRootObject.GetComponentInChildren<Text>();
 
 			menuRootObject.SetActive(true);
 			return menuRootObject;
@@ -88,14 +88,14 @@ namespace MenuFramework
 
 			// Add to title menu animation
 			var animController = GameObject.Find("TitleMenuManagers").GetComponent<TitleAnimationController>();
-			var array = animController.GetValue<CanvasGroupFadeController[]>("_buttonFadeControllers");
+			var array = animController._buttonFadeControllers;
 			var newLength = array.Length + 1;
 			Array.Resize(ref array, newLength);
 			array[newLength - 1] = new CanvasGroupFadeController
 			{
 				group = newButton.GetComponent<CanvasGroup>()
 			};
-			animController.SetValue("_buttonFadeControllers", array);
+			animController._buttonFadeControllers = array;
 
 			return newButton;
 		}

@@ -38,7 +38,7 @@ namespace MenuFramework
 			gameObject.AddComponent<TitleButtonManager>();
 			gameObject.AddComponent<PopupMenuManager>();
 			gameObject.AddComponent<PauseButtonManager>();
-			gameObject.AddComponent<OptionsMenuManager>();
+			//gameObject.AddComponent<OptionsMenuManager>();
 
 			LoadManager.OnCompleteSceneLoad += OnSceneLoad;
 
@@ -67,15 +67,15 @@ namespace MenuFramework
 			var rightArrow = layoutGroup.transform.Find("RightArrow").GetComponent<Image>();
 
 			var uiStyleApplier = ButtonPrefab.AddComponent<UIStyleApplier>();
-			uiStyleApplier.SetValue("_textItems", new Text[1] { text.GetComponent<Text>() });
-			uiStyleApplier.SetValue("_foregroundGraphics",
+			uiStyleApplier._textItems = new Text[1] { text.GetComponent<Text>() };
+			uiStyleApplier._foregroundGraphics =
 				new Graphic[3] {
 					text.GetComponent<Text>(),
 					leftArrow,
 					rightArrow
-				});
-			uiStyleApplier.SetValue("_backgroundGraphics", new Graphic[0]);
-			uiStyleApplier.SetValue("_onOffGraphicList",
+				};
+			uiStyleApplier._backgroundGraphics = new Graphic[0];
+			uiStyleApplier._onOffGraphicList =
 				new UIStyleApplier.OnOffGraphic[2]
 				{
 					new UIStyleApplier.OnOffGraphic()
@@ -88,7 +88,7 @@ namespace MenuFramework
 						graphic = rightArrow,
 						visibleHighlighted = true
 					}
-				});
+				};
 
 			ButtonPrefab.AddComponent<SelectableAudioPlayer>();
 
@@ -110,7 +110,7 @@ namespace MenuFramework
 			}
 
 			var menu = PauseListPrefab.AddComponent<Menu>();
-			menu.SetValue("_menuActivationRoot", PauseListPrefab);
+			menu._menuActivationRoot = PauseListPrefab;
 			PauseListPrefab.AddComponent<MenuCancelAction>();
 
 			var labelText = PauseListPrefab.transform.GetChild(1).GetChild(0).GetChild(0);
@@ -122,27 +122,28 @@ namespace MenuFramework
 
 		private void SetUpTwoButtonElement()
 		{
-			TwoButtonElementPrefab = Instantiate(Resources.FindObjectsOfTypeAll<TwoButtonToggleElement>().First(x => x.name == "UIElement-InvertPlayer").gameObject);
-			DontDestroyOnLoad(TwoButtonElementPrefab);
-			TwoButtonElementPrefab.SetActive(false);
+			//TwoButtonElementPrefab = Instantiate(Resources.FindObjectsOfTypeAll<TwoButtonToggleElement>().First(x => x.name == "UIElement-InvertPlayer").gameObject);
+			//DontDestroyOnLoad(TwoButtonElementPrefab);
+			//TwoButtonElementPrefab.SetActive(false);
 		}
 
 		private void SetUpNonDisplaySliderElement()
 		{
-			NonDisplaySliderElementPrefab = Instantiate(Resources.FindObjectsOfTypeAll<SliderElement>().First(x => x.name == "UIElement-FlightSensitivity").gameObject);
-			DontDestroyOnLoad(NonDisplaySliderElementPrefab);
-			NonDisplaySliderElementPrefab.SetActive(false);
+			//NonDisplaySliderElementPrefab = Instantiate(Resources.FindObjectsOfTypeAll<SliderElement>().First(x => x.name == "UIElement-FlightSensitivity").gameObject);
+			//DontDestroyOnLoad(NonDisplaySliderElementPrefab);
+			//NonDisplaySliderElementPrefab.SetActive(false);
 		}
 
 		private void SetUpLabelElement()
 		{
-			LabelElementPrefab = Instantiate(Resources.FindObjectsOfTypeAll<RectTransform>().First(x => x.name == "UIElement-FreezeTimeWhileReadingLabel").gameObject);
-			DontDestroyOnLoad(LabelElementPrefab);
-			LabelElementPrefab.SetActive(false);
+			//LabelElementPrefab = Instantiate(Resources.FindObjectsOfTypeAll<RectTransform>().First(x => x.name == "UIElement-FreezeTimeWhileReadingLabel").gameObject);
+			//DontDestroyOnLoad(LabelElementPrefab);
+			//LabelElementPrefab.SetActive(false);
 		}
 
 		private void SetUpTextInputElement()
 		{
+			/*
 			TextInputElementPrefab = MenuBundle.LoadAsset<GameObject>("assets/uielement-textinput.prefab");
 			TextInputElementPrefab.SetActive(false);
 
@@ -151,14 +152,14 @@ namespace MenuFramework
 			var rightArrow = TextInputElementPrefab.transform.Find("HorizontalLayoutGroup/LabelBlock/HorizontalLayoutGroup/RightArrow").GetComponent<Image>();
 
 			var uiStyleApplier = TextInputElementPrefab.AddComponent<UIStyleApplier>();
-			uiStyleApplier.SetValue("_textItems", new Text[1] { text.GetComponent<Text>() });
-			uiStyleApplier.SetValue("_foregroundGraphics",
+			uiStyleApplier._textItems = new Text[1] { text.GetComponent<Text>() };
+			uiStyleApplier._foregroundGraphics =
 				new Graphic[3] {
 					text.GetComponent<Text>(),
 					leftArrow,
 					rightArrow
-				});
-			uiStyleApplier.SetValue("_onOffGraphicList",
+				};
+			uiStyleApplier._onOffGraphicList =
 				new UIStyleApplier.OnOffGraphic[2]
 				{
 					new UIStyleApplier.OnOffGraphic()
@@ -171,7 +172,8 @@ namespace MenuFramework
 						graphic = rightArrow,
 						visibleHighlighted = true
 					}
-				});
+				};
+			*/
 		}
 	}
 }

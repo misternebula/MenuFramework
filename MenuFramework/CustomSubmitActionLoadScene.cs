@@ -42,7 +42,8 @@ namespace MenuFramework
 				_nowLoadingSB.Length = 0;
 			}
 		}
-		protected override void ConfirmSubmit()
+
+		public override void ConfirmSubmit()
 		{
 			base.ConfirmSubmit();
 			switch (_sceneToLoad)
@@ -67,14 +68,13 @@ namespace MenuFramework
 			Locator.GetMenuInputModule().DisableInputs();
 		}
 
-
-		protected override void SetUpPopupMenu()
+		public override void SetUpPopupMenu()
 		{
 			_receivedSubmitAction = true;
 			base.SetUpPopupMenu();
 		}
 
-		protected override void CleanupPopup()
+		public override void CleanupPopup()
 		{
 			if (_listenersAttached)
 			{
@@ -89,7 +89,7 @@ namespace MenuFramework
 		private LoadableScenes _sceneToLoad;
 
 		[SerializeField]
-		protected Text _loadingText;
+		public Text _loadingText;
 
 		[SerializeField]
 		private TitleScreenStreaming _titleScreenStreaming;

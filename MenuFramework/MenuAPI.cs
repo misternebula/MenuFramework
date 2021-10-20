@@ -28,25 +28,6 @@ namespace MenuFramework
 		public Menu PauseMenu_MakePauseListMenu(string title)
 			=> PauseButtonManager.Instance.MakePauseListMenu(title);
 
-		// OPTIONS
-		public Menu OptionsMenu_MakeNonScrollingOptionsTab(string name)
-			=> OptionsMenuManager.Instance.MakeNonScrollingOptionsTab(name);
-
-		public GameObject OptionsMenu_MakeTwoButtonToggle(string label, string trueText, string falseText, string tooltipText, bool savedValue, Menu menuTab)
-			=> OptionsMenuManager.Instance.CreateTwoButtonToggle(label, trueText, falseText, tooltipText, savedValue, menuTab);
-
-		public GameObject OptionsMenu_MakeNonDisplaySliderElement(string label, string tooltipText, float savedValue, Menu menuTab)
-			=> OptionsMenuManager.Instance.CreateNonDisplaySliderElement(label, tooltipText, savedValue, menuTab);
-
-		public void OptionsMenu_MakeSpacer(float minHeight, Menu menuTab)
-			=> OptionsMenuManager.Instance.CreateSpacer(minHeight, menuTab);
-
-		public void OptionsMenu_MakeLabel(string label, Menu menuTab)
-			=> OptionsMenuManager.Instance.CreateLabel(label, menuTab);
-
-		public void OptionsMenu_MakeTextInput(string label, string tooltipText, string placeholderText, string savedValue, Menu menuTab)
-			=> OptionsMenuManager.Instance.CreateTextInput(label, tooltipText, placeholderText, savedValue, menuTab);
-
 		// MISC
 		public PopupMenu MakeTwoChoicePopup(string message, string confirmText, string cancelText)
 			=> PopupMenuManager.Instance.CreateTwoChoicePopup(message, confirmText, cancelText);
