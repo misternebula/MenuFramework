@@ -44,6 +44,7 @@ namespace MenuFramework
 				Main.Helper.Console.WriteLine("Error - Cannot create pause button in this scene!", OWML.Common.MessageType.Error);
 				return null;
 			}
+
 			var menuRootObject = CreateBase(name, customMenu);
 
 			var submitActionMenu = menuRootObject.AddComponent<SubmitActionMenu>();
@@ -60,6 +61,7 @@ namespace MenuFramework
 				Main.Helper.Console.WriteLine("Error - Cannot create pause button in this scene!", OWML.Common.MessageType.Error);
 				return null;
 			}
+
 			var menuRootObject = CreateBase(name, customMenu);
 
 			var submitActionLoadScene = menuRootObject.AddComponent<CustomSubmitActionLoadScene>();

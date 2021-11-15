@@ -1,5 +1,7 @@
 ﻿using OWML.Utils;
 using System;
+using System.Linq;
+using System.Reflection;
 using UnityEngine;
 using UnityEngine.UI;
 
@@ -27,21 +29,22 @@ namespace MenuFramework
 			}
 		}
 
-		public Button MakeSimpleButton(string name)
+		public Button MakeSimpleButton(string name, int index)
 		{
-			var button = CreateBase(name);
+			var button = CreateBase(name, index);
 			button.SetActive(true);
 			return button.GetComponent<Button>();
-		}
+}
 
-		public GameObject MakeMenuOpenButton(string name, Menu menuToOpen)
+		public GameObject MakeMenuOpenButton(string name, int index, Menu menuToOpen)
 		{
 			if (LoadManager.GetCurrentScene() != OWScene.TitleScreen)
 			{
 				Main.Helper.Console.WriteLine("Error - Cannot create title button in this scene!", OWML.Common.MessageType.Error);
 				return null;
 			}
-			var menuRootObject = CreateBase(name);
+
+			var menuRootObject = CreateBase(name, index);
 
 			var submitActionMenu = menuRootObject.AddComponent<SubmitActionMenu>();
 			submitActionMenu._menuToOpen = menuToOpen;
@@ -51,14 +54,15 @@ namespace MenuFramework
 			return menuRootObject;
 		}
 
-		public GameObject MakeSceneLoadButton(string name, SubmitActionLoadScene.LoadableScenes sceneToLoad, PopupMenu confirmPopup = null)
+		public GameObject MakeSceneLoadButton(string name, int index, SubmitActionLoadScene.LoadableScenes sceneToLoad, PopupMenu confirmPopup = null)
 		{
 			if (LoadManager.GetCurrentScene() != OWScene.TitleScreen)
 			{
 				Main.Helper.Console.WriteLine("Error - Cannot create title button in this scene!", OWML.Common.MessageType.Error);
 				return null;
 			}
-			var menuRootObject = CreateBase(name);
+
+			var menuRootObject = CreateBase(name, index);
 
 			var submitActionLoadScene = menuRootObject.AddComponent<CustomSubmitActionLoadScene>();
 			submitActionLoadScene.SetSceneToLoad((CustomSubmitActionLoadScene.LoadableScenes)sceneToLoad);
@@ -70,13 +74,13 @@ namespace MenuFramework
 			return menuRootObject;
 		}
 
-		private GameObject CreateBase(string name)
+		private GameObject CreateBase(string name, int index)
 		{
 			var newButton = Instantiate(Main.ButtonPrefab);
 
 			// Make new button above dotted line and spacer
 			newButton.transform.parent = GameObject.Find("MainMenuLayoutGroup").transform;
-			newButton.transform.SetSiblingIndex(newButton.transform.GetSiblingIndex() - 2);
+			newButton.transform.SetSiblingIndex(index + 2);
 			newButton.transform.localScale = Vector3.one;
 
 			// Change text, and set mesh to dirty (maybe not needed?)
@@ -88,14 +92,13 @@ namespace MenuFramework
 
 			// Add to title menu animation
 			var animController = GameObject.Find("TitleMenuManagers").GetComponent<TitleAnimationController>();
-			var array = animController._buttonFadeControllers;
-			var newLength = array.Length + 1;
-			Array.Resize(ref array, newLength);
-			array[newLength - 1] = new CanvasGroupFadeController
+			//var array = animController._buttonFadeControllers;
+			var list = animController._buttonFadeControllers.ToList();
+			list.Insert(index, new CanvasGroupFadeController
 			{
 				group = newButton.GetComponent<CanvasGroup>()
-			};
-			animController._buttonFadeControllers = array;
+			});
+			animController._buttonFadeControllers = list.ToArray();
 
 			return newButton;
 		}
