@@ -42,60 +42,60 @@
       <HintPath>..\packages\Lib.Harmony.1.2.0.1\lib\net35\0Harmony.dll</HintPath>
     </Reference>
     <Reference Include="Assembly-CSharp_publicized">
-      <HintPath>D:\SteamLibrary\steamapps\common\Outer Wilds\OuterWilds_Data\Managed\publicized_assemblies\Assembly-CSharp_publicized.dll</HintPath>
+      <HintPath>$(GameDir)\OuterWilds_Data\Managed\publicized_assemblies\Assembly-CSharp_publicized.dll</HintPath>
     </Reference>
     <Reference Include="NAudio-Unity, Version=2.0.0.0, Culture=neutral, processorArchitecture=MSIL">
-      <HintPath>..\packages\OWML.2.0.0\lib\net40\NAudio-Unity.dll</HintPath>
+      <HintPath>..\packages\OWML.2.1.0\lib\net40\NAudio-Unity.dll</HintPath>
     </Reference>
     <Reference Include="netstandard">
-      <HintPath>D:\SteamLibrary\steamapps\common\Outer Wilds\OuterWilds_Data\Managed\netstandard.dll</HintPath>
+      <HintPath>$(GameDir)\OuterWilds_Data\Managed\netstandard.dll</HintPath>
     </Reference>
     <Reference Include="Newtonsoft.Json, Version=9.0.0.0, Culture=neutral, processorArchitecture=MSIL">
       <HintPath>..\packages\Json.Net.Unity3D.9.0.1\lib\net35\Newtonsoft.Json.dll</HintPath>
     </Reference>
-    <Reference Include="OWML.Common, Version=2.0.0.0, Culture=neutral, processorArchitecture=MSIL">
-      <HintPath>..\packages\OWML.2.0.0\lib\net40\OWML.Common.dll</HintPath>
+    <Reference Include="OWML.Common, Version=2.1.0.0, Culture=neutral, processorArchitecture=MSIL">
+      <HintPath>..\packages\OWML.2.1.0\lib\net40\OWML.Common.dll</HintPath>
     </Reference>
-    <Reference Include="OWML.Logging, Version=2.0.0.0, Culture=neutral, processorArchitecture=MSIL">
-      <HintPath>..\packages\OWML.2.0.0\lib\net40\OWML.Logging.dll</HintPath>
+    <Reference Include="OWML.Logging, Version=2.1.0.0, Culture=neutral, processorArchitecture=MSIL">
+      <HintPath>..\packages\OWML.2.1.0\lib\net40\OWML.Logging.dll</HintPath>
     </Reference>
-    <Reference Include="OWML.ModHelper, Version=2.0.0.0, Culture=neutral, processorArchitecture=MSIL">
-      <HintPath>..\packages\OWML.2.0.0\lib\net40\OWML.ModHelper.dll</HintPath>
+    <Reference Include="OWML.ModHelper, Version=2.1.0.0, Culture=neutral, processorArchitecture=MSIL">
+      <HintPath>..\packages\OWML.2.1.0\lib\net40\OWML.ModHelper.dll</HintPath>
     </Reference>
-    <Reference Include="OWML.ModHelper.Assets, Version=2.0.0.0, Culture=neutral, processorArchitecture=MSIL">
-      <HintPath>..\packages\OWML.2.0.0\lib\net40\OWML.ModHelper.Assets.dll</HintPath>
+    <Reference Include="OWML.ModHelper.Assets, Version=2.1.0.0, Culture=neutral, processorArchitecture=MSIL">
+      <HintPath>..\packages\OWML.2.1.0\lib\net40\OWML.ModHelper.Assets.dll</HintPath>
     </Reference>
-    <Reference Include="OWML.ModHelper.Events, Version=2.0.0.0, Culture=neutral, processorArchitecture=MSIL">
-      <HintPath>..\packages\OWML.2.0.0\lib\net40\OWML.ModHelper.Events.dll</HintPath>
+    <Reference Include="OWML.ModHelper.Events, Version=2.1.0.0, Culture=neutral, processorArchitecture=MSIL">
+      <HintPath>..\packages\OWML.2.1.0\lib\net40\OWML.ModHelper.Events.dll</HintPath>
     </Reference>
-    <Reference Include="OWML.ModHelper.Input, Version=2.0.0.0, Culture=neutral, processorArchitecture=MSIL">
-      <HintPath>..\packages\OWML.2.0.0\lib\net40\OWML.ModHelper.Input.dll</HintPath>
+    <Reference Include="OWML.ModHelper.Input, Version=2.1.0.0, Culture=neutral, processorArchitecture=MSIL">
+      <HintPath>..\packages\OWML.2.1.0\lib\net40\OWML.ModHelper.Input.dll</HintPath>
     </Reference>
-    <Reference Include="OWML.ModHelper.Interaction, Version=2.0.0.0, Culture=neutral, processorArchitecture=MSIL">
-      <HintPath>..\packages\OWML.2.0.0\lib\net40\OWML.ModHelper.Interaction.dll</HintPath>
+    <Reference Include="OWML.ModHelper.Interaction, Version=2.1.0.0, Culture=neutral, processorArchitecture=MSIL">
+      <HintPath>..\packages\OWML.2.1.0\lib\net40\OWML.ModHelper.Interaction.dll</HintPath>
     </Reference>
-    <Reference Include="OWML.ModHelper.Menus, Version=2.0.0.0, Culture=neutral, processorArchitecture=MSIL">
-      <HintPath>..\packages\OWML.2.0.0\lib\net40\OWML.ModHelper.Menus.dll</HintPath>
+    <Reference Include="OWML.ModHelper.Menus, Version=2.1.0.0, Culture=neutral, processorArchitecture=MSIL">
+      <HintPath>..\packages\OWML.2.1.0\lib\net40\OWML.ModHelper.Menus.dll</HintPath>
     </Reference>
-    <Reference Include="OWML.Utils, Version=2.0.0.0, Culture=neutral, processorArchitecture=MSIL">
-      <HintPath>..\packages\OWML.2.0.0\lib\net40\OWML.Utils.dll</HintPath>
+    <Reference Include="OWML.Utils, Version=2.1.0.0, Culture=neutral, processorArchitecture=MSIL">
+      <HintPath>..\packages\OWML.2.1.0\lib\net40\OWML.Utils.dll</HintPath>
     </Reference>
     <Reference Include="System" />
     <Reference Include="System.Core" />
     <Reference Include="System.Data.DataSetExtensions" />
     <Reference Include="System.Data" />
     <Reference Include="System.Xml">
-      <HintPath>D:\SteamLibrary\steamapps\common\Outer Wilds\OuterWilds_Data\Managed\System.Xml.dll</HintPath>
+      <HintPath>$(GameDir)\OuterWilds_Data\Managed\System.Xml.dll</HintPath>
     </Reference>
     <Reference Include="Unity.InputSystem">
-      <HintPath>D:\SteamLibrary\steamapps\common\Outer Wilds\OuterWilds_Data\Managed\Unity.InputSystem.dll</HintPath>
+      <HintPath>$(GameDir)\OuterWilds_Data\Managed\Unity.InputSystem.dll</HintPath>
     </Reference>
     <Reference Include="UnityEngine">
       <HintPath>$(GameDir)\OuterWilds_Data\Managed\UnityEngine.dll</HintPath>
     </Reference>
     <Reference Include="UnityEngine.AssetBundleModule, Version=0.0.0.0, Culture=neutral, processorArchitecture=MSIL">
       <SpecificVersion>False</SpecificVersion>
-      <HintPath>D:\SteamLibrary\steamapps\common\Outer Wilds\OuterWilds_Data\Managed\UnityEngine.AssetBundleModule.dll</HintPath>
+      <HintPath>$(GameDir)\OuterWilds_Data\Managed\UnityEngine.AssetBundleModule.dll</HintPath>
     </Reference>
     <Reference Include="UnityEngine.CoreModule">
       <HintPath>$(GameDir)\OuterWilds_Data\Managed\UnityEngine.CoreModule.dll</HintPath>
