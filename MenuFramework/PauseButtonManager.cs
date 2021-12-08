@@ -90,6 +90,7 @@ namespace MenuFramework
 			pauseButton.transform.localScale = Vector3.one;
 			pauseButton.transform.SetSiblingIndex(pauseButton.transform.GetSiblingIndex() - 1); // -1 because no spacer in pause menu
 			pauseButton.SetActive(false);
+			pauseButton.name = $"Button-{name}";
 
 			// Change text, and set mesh to dirty (maybe not needed?)
 			pauseButton.transform.GetChild(0).GetChild(1).GetComponent<Text>().text = name;

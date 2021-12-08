@@ -82,6 +82,7 @@ namespace MenuFramework
 			newButton.transform.parent = GameObject.Find("MainMenuLayoutGroup").transform;
 			newButton.transform.SetSiblingIndex(index + 2);
 			newButton.transform.localScale = Vector3.one;
+			newButton.name = $"Button-{name}";
 
 			// Change text, and set mesh to dirty (maybe not needed?)
 			newButton.transform.GetChild(0).GetChild(1).GetComponent<Text>().text = name;
