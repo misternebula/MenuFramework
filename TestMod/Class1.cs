@@ -218,6 +218,7 @@ namespace TestMod
 			{
 				return;
 			}
+
 			var point = FindObjectsOfType<SpawnPoint>().First(x => x.gameObject.name == spawnPointName);
 			FindObjectOfType<PlayerSpawner>().SetInitialSpawnPoint(point);
 		}

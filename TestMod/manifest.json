@@ -4,7 +4,7 @@
   "name": "Menu Framework Test Mod",
   "description": "Test mod for the custom menu framework/wrapper.",
   "uniqueName": "_nebula.TestMod",
-  "version": "2.1.0",
-  "owmlVersion": "2.0.0",
+  "version": "2.2.1",
+  "owmlVersion": "2.2.0",
   "dependencies": [ "_nebula.MenuFramework" ]
 }

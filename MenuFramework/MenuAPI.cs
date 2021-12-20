@@ -1,4 +1,6 @@
-﻿using UnityEngine;
+﻿using System;
+using System.Reflection;
+using UnityEngine;
 using UnityEngine.UI;
 
 namespace MenuFramework
@@ -6,14 +8,24 @@ namespace MenuFramework
 	public class MenuAPI
 	{
 		// TITLE SCREEN
+		[Obsolete]
 		public GameObject TitleScreen_MakeMenuOpenButton(string name, Menu menuToOpen)
-			=> TitleButtonManager.Instance.MakeMenuOpenButton(name, menuToOpen);
-
+			=> TitleButtonManager.Instance.MakeMenuOpenButton(name, 0, menuToOpen);
+		[Obsolete]
 		public GameObject TitleScreen_MakeSceneLoadButton(string name, SubmitActionLoadScene.LoadableScenes sceneToLoad, PopupMenu confirmPopup = null)
-			=> TitleButtonManager.Instance.MakeSceneLoadButton(name, sceneToLoad, confirmPopup);
-
+			=> TitleButtonManager.Instance.MakeSceneLoadButton(name, 0, sceneToLoad, confirmPopup);
+		[Obsolete]
 		public Button TitleScreen_MakeSimpleButton(string name)
-			=> TitleButtonManager.Instance.MakeSimpleButton(name);
+			=> TitleButtonManager.Instance.MakeSimpleButton(name, 0);
+
+		public GameObject TitleScreen_MakeMenuOpenButton(string name, int index, Menu menuToOpen)
+			=> TitleButtonManager.Instance.MakeMenuOpenButton(name, index, menuToOpen);
+
+		public GameObject TitleScreen_MakeSceneLoadButton(string name, int index, SubmitActionLoadScene.LoadableScenes sceneToLoad, PopupMenu confirmPopup = null)
+			=> TitleButtonManager.Instance.MakeSceneLoadButton(name, index, sceneToLoad, confirmPopup);
+
+		public Button TitleScreen_MakeSimpleButton(string name, int index)
+			=> TitleButtonManager.Instance.MakeSimpleButton(name, index);
 
 		// PAUSE MENU
 		public GameObject PauseMenu_MakeMenuOpenButton(string name, Menu menuToOpen, Menu customMenu = null)

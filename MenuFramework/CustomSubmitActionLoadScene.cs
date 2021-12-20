@@ -7,9 +7,7 @@ namespace MenuFramework
 	class CustomSubmitActionLoadScene : SubmitActionConfirm
 	{
 		public void SetSceneToLoad(LoadableScenes scene)
-		{
-			_sceneToLoad = scene;
-		}
+			=> _sceneToLoad = scene;
 
 		private void Update()
 		{
@@ -64,6 +62,7 @@ namespace MenuFramework
 					LoadManager.LoadScene(OWScene.Credits_Fast, LoadManager.FadeType.ToBlack, 1f, false);
 					break;
 			}
+
 			_receivedSubmitAction = true;
 			Locator.GetMenuInputModule().DisableInputs();
 		}
