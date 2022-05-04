@@ -4,6 +4,6 @@
   "name": "Menu Framework",
   "description": "Custom menu framework/wrapper.",
   "uniqueName": "_nebula.MenuFramework",
-  "version": "2.1.1",
+  "version": "3.0.0",
   "owmlVersion": "2.2.0"
 }

@@ -1,14 +1,9 @@
 ﻿
 Microsoft Visual Studio Solution File, Format Version 12.00
-# Visual Studio Version 16
-VisualStudioVersion = 16.0.30804.86
+# Visual Studio Version 17
+VisualStudioVersion = 17.0.31912.275
 MinimumVisualStudioVersion = 10.0.40219.1
 Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "MenuFramework", "MenuFramework\MenuFramework.csproj", "{D894866C-F6A2-4BBB-BB41-EC8164AC185F}"
-	ProjectSection(ProjectDependencies) = postProject
-		{AD61351D-B3D3-49AC-AC38-6F601003A234} = {AD61351D-B3D3-49AC-AC38-6F601003A234}
-	EndProjectSection
-EndProject
-Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "TestMod", "TestMod\TestMod.csproj", "{AD61351D-B3D3-49AC-AC38-6F601003A234}"
 EndProject
 Global
 	GlobalSection(SolutionConfigurationPlatforms) = preSolution
@@ -20,10 +15,6 @@ Global
 		{D894866C-F6A2-4BBB-BB41-EC8164AC185F}.Debug|Any CPU.Build.0 = Debug|Any CPU
 		{D894866C-F6A2-4BBB-BB41-EC8164AC185F}.Release|Any CPU.ActiveCfg = Release|Any CPU
 		{D894866C-F6A2-4BBB-BB41-EC8164AC185F}.Release|Any CPU.Build.0 = Release|Any CPU
-		{AD61351D-B3D3-49AC-AC38-6F601003A234}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
-		{AD61351D-B3D3-49AC-AC38-6F601003A234}.Debug|Any CPU.Build.0 = Debug|Any CPU
-		{AD61351D-B3D3-49AC-AC38-6F601003A234}.Release|Any CPU.ActiveCfg = Release|Any CPU
-		{AD61351D-B3D3-49AC-AC38-6F601003A234}.Release|Any CPU.Build.0 = Release|Any CPU
 	EndGlobalSection
 	GlobalSection(SolutionProperties) = preSolution
 		HideSolutionNode = FALSE

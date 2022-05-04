@@ -8,16 +8,6 @@ namespace MenuFramework
 	public class MenuAPI
 	{
 		// TITLE SCREEN
-		[Obsolete]
-		public GameObject TitleScreen_MakeMenuOpenButton(string name, Menu menuToOpen)
-			=> TitleButtonManager.Instance.MakeMenuOpenButton(name, 0, menuToOpen);
-		[Obsolete]
-		public GameObject TitleScreen_MakeSceneLoadButton(string name, SubmitActionLoadScene.LoadableScenes sceneToLoad, PopupMenu confirmPopup = null)
-			=> TitleButtonManager.Instance.MakeSceneLoadButton(name, 0, sceneToLoad, confirmPopup);
-		[Obsolete]
-		public Button TitleScreen_MakeSimpleButton(string name)
-			=> TitleButtonManager.Instance.MakeSimpleButton(name, 0);
-
 		public GameObject TitleScreen_MakeMenuOpenButton(string name, int index, Menu menuToOpen)
 			=> TitleButtonManager.Instance.MakeMenuOpenButton(name, index, menuToOpen);
 
@@ -49,5 +39,9 @@ namespace MenuFramework
 
 		public PopupMenu MakeInfoPopup(string message, string continueButtonText)
 			=> PopupMenuManager.Instance.CreateInfoPopup(message, continueButtonText);
+
+		// STARTUP POPUPS
+		public void RegisterStartupPopup(string message)
+			=> StartupPopupManager.Instance.RegisterStartupPopup(message);
 	}
 }

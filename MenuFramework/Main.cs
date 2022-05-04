@@ -38,6 +38,7 @@ namespace MenuFramework
 			gameObject.AddComponent<TitleButtonManager>();
 			gameObject.AddComponent<PopupMenuManager>();
 			gameObject.AddComponent<PauseButtonManager>();
+			gameObject.AddComponent<StartupPopupManager>();
 			//gameObject.AddComponent<OptionsMenuManager>();
 
 			LoadManager.OnCompleteSceneLoad += OnSceneLoad;
