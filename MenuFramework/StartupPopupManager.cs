@@ -22,7 +22,7 @@ namespace MenuFramework
 
 			if (typeof(TitleScreenManager).GetMethods(BindingFlags.Instance | BindingFlags.NonPublic | BindingFlags.Public | BindingFlags.Static).Any(x => x.Name == "ShowStartupPopupsAndShowMenu"))
 			{
-				Main.Helper.HarmonyHelper.AddPrefix<TitleScreenManager>(nameof(TitleScreenManager.ShowStartupPopupsAndShowMenu), typeof(StartupPatches), nameof(StartupPatches.ShowStartupPopupsAndShowMenu));
+				Main.Helper.HarmonyHelper.AddPrefix<TitleScreenManager>("ShowStartupPopupsAndShowMenu", typeof(StartupPatches), nameof(StartupPatches.ShowStartupPopupsAndShowMenu));
 			}
 			else
 			{
