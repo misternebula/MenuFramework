@@ -87,6 +87,7 @@ namespace MenuFramework
 			var mainMenuLayoutGroup = customMenu.transform.GetChild(1).GetComponent<VerticalLayoutGroup>();
 			pauseButton.transform.parent = mainMenuLayoutGroup.transform;
 			pauseButton.transform.localPosition = Vector3.zero;
+			pauseButton.transform.rotation = Quaternion.LookRotation(mainMenuLayoutGroup.transform.forward, mainMenuLayoutGroup.transform.up);
 			pauseButton.transform.localScale = Vector3.one;
 			pauseButton.transform.SetSiblingIndex(pauseButton.transform.GetSiblingIndex() - 1); // -1 because no spacer in pause menu
 			pauseButton.SetActive(false);
