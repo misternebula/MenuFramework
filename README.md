@@ -7,8 +7,6 @@ using System;
 using UnityEngine;
 using UnityEngine.UI;
 
-namespace QSB.Menus;
-
 public interface IMenuAPI
 {
 	GameObject TitleScreen_MakeMenuOpenButton(string name, int index, Menu menuToOpen);
