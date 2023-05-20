@@ -1,5 +1,5 @@
 ManifestFileVersion: 0
-CRC: 3127999951
+CRC: 2472739066
 Hashes:
   AssetFileHash:
     serializedVersion: 2
@@ -47,6 +47,6 @@ ClassTypes:
   Script: {instanceID: 0}
 SerializeReferenceClassIdentifiers: []
 Assets:
-- Assets/prefabs/Button-CustomButton.prefab
-- Assets/prefabs/CustomPauseMenuItems.prefab
+- Assets/Button-CustomButton.prefab
+- Assets/CustomPauseMenuItems.prefab
 Dependencies: []
