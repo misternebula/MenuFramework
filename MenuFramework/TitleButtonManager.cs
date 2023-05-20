@@ -14,21 +14,6 @@ namespace MenuFramework
 		private void Awake() 
 			=> Instance = this;
 
-		public void CustomizeTitleScreen()
-		{
-			var mainMenuLayoutGroup = GameObject.Find("MainMenuLayoutGroup");
-			foreach (Transform transform in mainMenuLayoutGroup.transform)
-			{
-				if (transform.GetComponent<Button>() != null)
-				{
-					var layoutElement = transform.GetComponent<LayoutElement>();
-
-					layoutElement.minHeight = 44.25f;
-					layoutElement.flexibleHeight = 1f;
-				}
-			}
-		}
-
 		public Button MakeSimpleButton(string name, int index)
 		{
 			var button = CreateBase(name, index);

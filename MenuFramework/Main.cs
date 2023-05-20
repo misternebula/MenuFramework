@@ -40,18 +40,6 @@ namespace MenuFramework
 			gameObject.AddComponent<PauseButtonManager>();
 			gameObject.AddComponent<StartupPopupManager>();
 			//gameObject.AddComponent<OptionsMenuManager>();
-
-			LoadManager.OnCompleteSceneLoad += OnSceneLoad;
-
-			TitleButtonManager.Instance.CustomizeTitleScreen();
-		}
-
-		private void OnSceneLoad(OWScene from, OWScene to)
-		{
-			if (to == OWScene.TitleScreen)
-			{
-				TitleButtonManager.Instance.CustomizeTitleScreen();
-			}
 		}
 
 		private void SetUpButtonPrefab()
