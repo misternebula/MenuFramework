@@ -78,7 +78,7 @@
       <HintPath>..\packages\MonoMod.Utils.21.8.19.1\lib\net40\MonoMod.Utils.dll</HintPath>
     </Reference>
     <Reference Include="NAudio-Unity, Version=2.0.0.0, Culture=neutral, processorArchitecture=MSIL">
-      <HintPath>..\packages\OWML.2.9.7\lib\net48\NAudio-Unity.dll</HintPath>
+      <HintPath>..\packages\OWML.2.9.8\lib\net48\NAudio-Unity.dll</HintPath>
     </Reference>
     <Reference Include="netstandard, Version=2.0.0.0, Culture=neutral, PublicKeyToken=cc7b13ffcd2ddd51, processorArchitecture=MSIL">
       <HintPath>..\packages\OuterWildsGameLibs.1.1.14.768\lib\netstandard.dll</HintPath>
@@ -86,32 +86,32 @@
     <Reference Include="Newtonsoft.Json, Version=13.0.0.0, Culture=neutral, PublicKeyToken=30ad4fe6b2a6aeed, processorArchitecture=MSIL">
       <HintPath>..\packages\OuterWildsGameLibs.1.1.14.768\lib\Newtonsoft.Json.dll</HintPath>
     </Reference>
-    <Reference Include="OWML.Common, Version=2.9.7.0, Culture=neutral, processorArchitecture=MSIL">
-      <HintPath>..\packages\OWML.2.9.7\lib\net48\OWML.Common.dll</HintPath>
+    <Reference Include="OWML.Common, Version=2.9.8.0, Culture=neutral, processorArchitecture=MSIL">
+      <HintPath>..\packages\OWML.2.9.8\lib\net48\OWML.Common.dll</HintPath>
     </Reference>
-    <Reference Include="OWML.Logging, Version=2.9.7.0, Culture=neutral, processorArchitecture=MSIL">
-      <HintPath>..\packages\OWML.2.9.7\lib\net48\OWML.Logging.dll</HintPath>
+    <Reference Include="OWML.Logging, Version=2.9.8.0, Culture=neutral, processorArchitecture=MSIL">
+      <HintPath>..\packages\OWML.2.9.8\lib\net48\OWML.Logging.dll</HintPath>
     </Reference>
-    <Reference Include="OWML.ModHelper, Version=2.9.7.0, Culture=neutral, processorArchitecture=MSIL">
-      <HintPath>..\packages\OWML.2.9.7\lib\net48\OWML.ModHelper.dll</HintPath>
+    <Reference Include="OWML.ModHelper, Version=2.9.8.0, Culture=neutral, processorArchitecture=MSIL">
+      <HintPath>..\packages\OWML.2.9.8\lib\net48\OWML.ModHelper.dll</HintPath>
     </Reference>
-    <Reference Include="OWML.ModHelper.Assets, Version=2.9.7.0, Culture=neutral, processorArchitecture=MSIL">
-      <HintPath>..\packages\OWML.2.9.7\lib\net48\OWML.ModHelper.Assets.dll</HintPath>
+    <Reference Include="OWML.ModHelper.Assets, Version=2.9.8.0, Culture=neutral, processorArchitecture=MSIL">
+      <HintPath>..\packages\OWML.2.9.8\lib\net48\OWML.ModHelper.Assets.dll</HintPath>
     </Reference>
-    <Reference Include="OWML.ModHelper.Events, Version=2.9.7.0, Culture=neutral, processorArchitecture=MSIL">
-      <HintPath>..\packages\OWML.2.9.7\lib\net48\OWML.ModHelper.Events.dll</HintPath>
+    <Reference Include="OWML.ModHelper.Events, Version=2.9.8.0, Culture=neutral, processorArchitecture=MSIL">
+      <HintPath>..\packages\OWML.2.9.8\lib\net48\OWML.ModHelper.Events.dll</HintPath>
     </Reference>
-    <Reference Include="OWML.ModHelper.Input, Version=2.9.7.0, Culture=neutral, processorArchitecture=MSIL">
-      <HintPath>..\packages\OWML.2.9.7\lib\net48\OWML.ModHelper.Input.dll</HintPath>
+    <Reference Include="OWML.ModHelper.Input, Version=2.9.8.0, Culture=neutral, processorArchitecture=MSIL">
+      <HintPath>..\packages\OWML.2.9.8\lib\net48\OWML.ModHelper.Input.dll</HintPath>
     </Reference>
-    <Reference Include="OWML.ModHelper.Interaction, Version=2.9.7.0, Culture=neutral, processorArchitecture=MSIL">
-      <HintPath>..\packages\OWML.2.9.7\lib\net48\OWML.ModHelper.Interaction.dll</HintPath>
+    <Reference Include="OWML.ModHelper.Interaction, Version=2.9.8.0, Culture=neutral, processorArchitecture=MSIL">
+      <HintPath>..\packages\OWML.2.9.8\lib\net48\OWML.ModHelper.Interaction.dll</HintPath>
     </Reference>
-    <Reference Include="OWML.ModHelper.Menus, Version=2.9.7.0, Culture=neutral, processorArchitecture=MSIL">
-      <HintPath>..\packages\OWML.2.9.7\lib\net48\OWML.ModHelper.Menus.dll</HintPath>
+    <Reference Include="OWML.ModHelper.Menus, Version=2.9.8.0, Culture=neutral, processorArchitecture=MSIL">
+      <HintPath>..\packages\OWML.2.9.8\lib\net48\OWML.ModHelper.Menus.dll</HintPath>
     </Reference>
-    <Reference Include="OWML.Utils, Version=2.9.7.0, Culture=neutral, processorArchitecture=MSIL">
-      <HintPath>..\packages\OWML.2.9.7\lib\net48\OWML.Utils.dll</HintPath>
+    <Reference Include="OWML.Utils, Version=2.9.8.0, Culture=neutral, processorArchitecture=MSIL">
+      <HintPath>..\packages\OWML.2.9.8\lib\net48\OWML.Utils.dll</HintPath>
     </Reference>
     <Reference Include="System, Version=4.0.0.0, Culture=neutral, PublicKeyToken=7cec85d7bea7798e, processorArchitecture=MSIL">
       <HintPath>..\packages\OuterWildsGameLibs.1.1.14.768\lib\System.dll</HintPath>
