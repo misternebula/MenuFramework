@@ -13,10 +13,6 @@ namespace MenuFramework
 		public static AssetBundle MenuBundle { get; private set; }
 		public static GameObject ButtonPrefab { get; private set; }
 		public static GameObject PauseListPrefab { get; private set; }
-		public static GameObject TwoButtonElementPrefab { get; private set; }
-		public static GameObject NonDisplaySliderElementPrefab { get; private set; }
-		public static GameObject LabelElementPrefab { get; private set; }
-		public static GameObject TextInputElementPrefab { get; private set; }
 
 		public static Font AdobeSerifGothicStdExtraBold => (Font)Resources.Load("fonts/english - latin/Adobe - SerifGothicStd-ExtraBold");
 		//public static Font AdobeSerifGothicStdDynamic => (Font)Resources.Load("fonts/english - latin/Adobe - SerifGothicStd_Dynamic");
@@ -28,6 +24,18 @@ namespace MenuFramework
 			Helper = ModHelper;
 
 			MenuBundle = Helper.Assets.LoadBundle("assets/menuframework");
+
+			if (MenuBundle == null)
+			{
+				Helper.Console.WriteLine("Couldn't load asset bundle!", MessageType.Fatal);
+				return;
+			}
+
+			foreach (var item in MenuBundle.GetAllAssetNames())
+			{
+				Helper.Console.WriteLine(item);
+			}
+
 			SetUpButtonPrefab();
 			SetUpPauseList();
 			SetUpTwoButtonElement();
@@ -45,6 +53,13 @@ namespace MenuFramework
 		private void SetUpButtonPrefab()
 		{
 			ButtonPrefab = MenuBundle.LoadAsset<GameObject>("assets/button-custombutton.prefab");
+
+			if (ButtonPrefab == null)
+			{
+				Helper.Console.WriteLine("Couldn't load assets/button-custombutton.prefab from bundle", MessageType.Fatal);
+				return;
+			}
+
 			ButtonPrefab.SetActive(false);
 
 			var layoutGroup = ButtonPrefab.transform.GetChild(0);
