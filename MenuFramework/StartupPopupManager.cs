@@ -22,7 +22,7 @@ namespace MenuFramework
 
 			if (typeof(TitleScreenManager).GetMethods(BindingFlags.Instance | BindingFlags.NonPublic | BindingFlags.Public | BindingFlags.Static).Any(x => x.Name == "ShowStartupPopupsAndShowMenu"))
 			{
-				Main.Helper.HarmonyHelper.AddPrefix<TitleScreenManager>(nameof(TitleScreenManager.ShowStartupPopupsAndShowMenu), typeof(StartupPatches), nameof(StartupPatches.ShowStartupPopupsAndShowMenu));
+				Main.Helper.HarmonyHelper.AddPrefix<TitleScreenManager>("ShowStartupPopupsAndShowMenu", typeof(StartupPatches), nameof(StartupPatches.ShowStartupPopupsAndShowMenu));
 			}
 			else
 			{
@@ -126,17 +126,7 @@ namespace MenuFramework
 			__instance._okCancelPopup.OnPopupConfirm -= __instance.OnUserConfirmStartupPopup;
 			__instance._inputModule.DisableInputs();
 			__instance._titleMenuRaycastBlocker.blocksRaycasts = true;
-
-			var titleType = __instance.GetType();
-
-			if (titleType.GetMethods(BindingFlags.Instance | BindingFlags.NonPublic | BindingFlags.Public | BindingFlags.Static).Any(x => x.Name == "ShowStartupPopupsAndShowMenu"))
-			{
-				__instance.GetType().GetMethod("ShowStartupPopupsAndShowMenu", BindingFlags.NonPublic | BindingFlags.Instance).Invoke(__instance, null);
-			}
-			else
-			{
-				__instance.GetType().GetMethod("TryShowStartupPopupsAndShowMenu", BindingFlags.NonPublic | BindingFlags.Instance).Invoke(__instance, null);
-			}
+			__instance.TryShowStartupPopupsAndShowMenu(true);
 
 			return false;
 		}
@@ -153,7 +143,7 @@ namespace MenuFramework
 				return false;
 			}
 
-			__instance.GetType().GetMethod("TryShowStartupPopups", BindingFlags.NonPublic | BindingFlags.Instance).Invoke(__instance, null);
+			__instance.TryShowStartupPopups();
 
 			return false;
 		}
